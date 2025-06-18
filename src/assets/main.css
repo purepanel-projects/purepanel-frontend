@@ -1,0 +1,6 @@
+@import "@/assets/td-theme.css";
+@import "tailwindcss";
+
+body {
+    background-color: var(--td-bg-color-page);
+}
