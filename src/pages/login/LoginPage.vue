@@ -6,8 +6,8 @@
 </template>
 
 <script lang="ts" setup>
-import LoginForm from "@/pages/login/component/LoginForm.vue";
-import LoginHeader from "@/pages/login/component/LoginHeader.vue";
+import LoginForm from "@/pages/login/components/LoginForm.vue";
+import LoginHeader from "@/pages/login/components/LoginHeader.vue";
 </script>
 
 <style scoped>
