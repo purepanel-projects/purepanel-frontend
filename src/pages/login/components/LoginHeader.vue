@@ -6,14 +6,14 @@
       <a target="_blank" href="https://github.com/purepanel-projects">
         <t-button variant="text">
           <template #icon>
-            <logo-github-icon/>
+            <t-icon name="logo-github"/>
           </template>
         </t-button>
       </a>
       <a target="_blank" href="https://github.com/purepanel-projects">
         <t-button variant="text">
           <template #icon>
-            <help-circle-icon/>
+            <t-icon name="help-circle"/>
           </template>
         </t-button>
       </a>
@@ -21,5 +21,4 @@
   </div>
 </template>
 <script setup lang="ts">
-import {LogoGithubIcon, HelpCircleIcon} from "tdesign-icons-vue-next";
 </script>

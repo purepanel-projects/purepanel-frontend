@@ -14,7 +14,7 @@ import LoginHeader from "@/pages/login/components/LoginHeader.vue";
 @reference "tailwindcss";
 
 #page {
-  @apply flex flex-col h-screen justify-center bg-white bg-cover bg-[100%]
+  @apply flex flex-col h-screen justify-center  bg-cover bg-[100%]
   bg-[url(https://static.tdesign.tencent.com/starter/vue-next/assets/assets-login-bg-white-DhCleFXy.png)]
 }
 
