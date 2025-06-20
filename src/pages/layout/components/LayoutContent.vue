@@ -1,8 +1,6 @@
 <template>
-  <div class="flex flex-col w-full p-5 h-screen overflow-auto">
-    <div class="!mt-[var(--td-comp-size-xxxl)] h-full">
-      <RouterView/>
-    </div>
+  <div class="px-10 py-4 ">
+    <RouterView/>
   </div>
 </template>
 <script setup lang="ts">

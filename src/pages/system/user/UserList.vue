@@ -1,7 +1,7 @@
 <template>
-  <t-card class="min-h-full">
-    123
-  </t-card>
+  <t-table>
+
+  </t-table>
 </template>
 <script setup lang="ts">
 </script>

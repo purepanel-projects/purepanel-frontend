@@ -1,25 +1,28 @@
 <template>
-  <div class="fixed w-full z-1 backdrop-blur-md">
-    <t-head-menu class="!bg-transparent">
-      <template #logo>
-        <img class="w-24" src="@/assets/logo-h.png" alt="logo"/>
+  <t-head-menu>
+    <t-button variant="text" @click="()=>useAsideCollapsedStore().reverse()">
+      <template #icon>
+        <t-icon name="view-list"/>
       </template>
-      <t-button variant="text" @click="()=>useAsideCollapsedStore().reverse()">
+    </t-button>
+    <span class="font-bold text-2xl m-2">
+      {{ usePageTitleStore().pageTitle}}
+    </span>
+    <template #operations>
+      <t-button variant="text">
         <template #icon>
-          <t-icon name="view-list"/>
+          <t-icon name="notification"/>
         </template>
       </t-button>
-      <template #operations>
-        <t-button variant="text">
-          <template #icon>
-            <t-icon name="mail"/>
-          </template>
-        </t-button>
-      </template>
-    </t-head-menu>
-  </div>
-
+      <t-button variant="text">
+        <template #icon>
+          <t-icon name="user"/>
+        </template>
+      </t-button>
+    </template>
+  </t-head-menu>
 </template>
 <script setup lang="ts">
 import {useAsideCollapsedStore} from '@/stores/asideCollapsedStore.ts'
+import {usePageTitleStore} from "@/stores/pageTitleStore.ts";
 </script>

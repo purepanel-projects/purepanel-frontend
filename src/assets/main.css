@@ -2,5 +2,6 @@
 @import "tailwindcss";
 
 body {
-    background-color: var(--td-bg-color-page);
+    background-color: var(--td-bg-color-container);
+    color: var(--td-text-color-primary);
 }

@@ -1,9 +1,11 @@
 <template>
-  <div class="flex flex-col">
-    <layout-header/>
-    <div class="flex flex-row w-full">
-      <layout-aside-nav/>
-      <layout-content/>
+  <div class="flex flex-row">
+    <layout-aside-nav/>
+    <div class="w-full h-screen overflow-auto">
+      <div class="flex flex-col mt-4">
+        <layout-header/>
+        <layout-content/>
+      </div>
     </div>
   </div>
 </template>
