@@ -1,7 +1,7 @@
 <template>
   <div class="h-screen max-w-min pl-4 py-4">
-    <div class="bg-[var(--td-bg-color-page)] h-full rounded-xl">
-      <t-menu class="!bg-transparent" value="item1" :collapsed="useAsideCollapsedStore().asideCollapsed">
+    <div class="h-full rounded-xl overflow-hidden">
+      <t-menu value="item1" :collapsed="useAsideCollapsedStore().asideCollapsed">
         <template #logo>
           <img class="w-28" src="@/assets/logo-h.png" alt="logo">
         </template>
