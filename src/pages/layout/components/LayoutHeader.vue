@@ -1,5 +1,5 @@
 <template>
-  <t-head-menu class="!bg-transparent">
+  <t-head-menu>
     <t-button variant="text" @click="()=>useAsideCollapsedStore().reverse()">
       <template #icon>
         <t-icon v-if="useAsideCollapsedStore().asideCollapsed" name="menu-fold"/>
@@ -10,13 +10,17 @@
       {{ usePageTitleStore().pageTitle }}
     </span>
     <template #operations>
-
-      <t-button variant="text">
-        <template #icon>
-          <t-icon name="notification"/>
-        </template>
-      </t-button>
-      <t-avatar class="!mr-[var(--td-comp-margin-xxl)]" size="small" shape="round" image="https://ui.shadcn.com/avatars/shadcn.jpg"/>
+      <div class="flex flex-row items-center !mr-[var(--td-comp-margin-xxl)] gap-2">
+        <t-button class="!p-2" variant="text">
+          <template #icon>
+            <t-icon name="notification"/>
+          </template>
+        </t-button>
+        <t-button class="!p-2" variant="text">
+          <t-avatar class="" size="small" shape="circle"
+                    image="https://ui.shadcn.com/avatars/shadcn.jpg"/>
+        </t-button>
+      </div>
     </template>
   </t-head-menu>
 </template>

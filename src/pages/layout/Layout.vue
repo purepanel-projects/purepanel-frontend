@@ -1,13 +1,17 @@
 <template>
-  <div class="flex flex-row">
-    <layout-aside-nav/>
-    <div class="w-full h-screen overflow-auto">
-      <div class="flex flex-col mt-4">
+  <t-layout>
+    <t-aside class="max-w-min h-screen">
+      <layout-aside-nav/>
+    </t-aside>
+    <t-layout class="h-screen">
+      <t-header>
         <layout-header/>
+      </t-header>
+      <t-content class="overflow-auto">
         <layout-content/>
-      </div>
-    </div>
-  </div>
+      </t-content>
+    </t-layout>
+  </t-layout>
 </template>
 <script setup lang="ts">
 import LayoutHeader from "@/pages/layout/components/LayoutHeader.vue";
