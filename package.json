@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.10",
+    "nprogress": "^0.2.0",
     "pinia": "^3.0.1",
     "tailwindcss": "^4.1.10",
     "tdesign-vue-next": "^1.13.2",
