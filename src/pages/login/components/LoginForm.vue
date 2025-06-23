@@ -17,6 +17,17 @@
             </template>
           </t-input>
         </t-form-item>
+        <t-form-item name="captcha">
+          <div class="flex flex-row gap-4 items-center">
+            <t-input class="max-w-64" size="large" v-model="formData.captcha" clearable placeholder="请输入验证码">
+              <template #prefix-icon>
+                <VerifiedIcon/>
+              </template>
+            </t-input>
+            <img @click="getCaptchaData" class="h-[var(--td-comp-size-l)] cursor-pointer rounded-md"
+                 :src="captcha?.captchaBase64" alt=""/>
+          </div>
+        </t-form-item>
         <t-form-item>
           <t-button size="large" theme="primary" type="submit" block>登录</t-button>
         </t-form-item>
@@ -28,15 +39,20 @@
   </div>
 </template>
 <script setup lang="ts">
-import {LockOnIcon, UserIcon} from "tdesign-icons-vue-next";
+import {LockOnIcon, UserIcon, VerifiedIcon} from "tdesign-icons-vue-next";
 import type {FormProps} from "tdesign-vue-next";
-import {reactive} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import {useRouter} from "vue-router";
 import {MessagePlugin} from 'tdesign-vue-next';
+import {getCaptcha, type GetCaptchaRes} from '@/api/loginApi.ts'
 
 const router = useRouter()
 
+onMounted(() => {
+  getCaptchaData()
+})
 
+//定义表单校验规则
 const formRules: FormProps['rules'] = {
   account: [{
     required: true,
@@ -50,14 +66,36 @@ const formRules: FormProps['rules'] = {
       min: 6,
       message: '密码至少 6 位'
     }
+  ],
+  captcha: [
+    {
+      required: true,
+      message: '请输入验证码'
+    }, {
+      len: 4,
+      message: '请输入 4 位验证码'
+    }
   ]
 }
 
+//获取验证码
+const captcha = ref<GetCaptchaRes>()
+
+function getCaptchaData() {
+  getCaptcha().then(res => {
+    captcha.value = res.payload
+  }).catch(() => {
+    MessagePlugin.error('获取验证码失败')
+  })
+}
+
+//定义表单数据
 const formData: FormProps['data'] = reactive({
   account: '',
   password: '',
+  captcha: ''
 });
-
+//表单提交事件
 const onSubmit: FormProps['onSubmit'] = ({validateResult}) => {
   if (validateResult !== true) {
     return;
