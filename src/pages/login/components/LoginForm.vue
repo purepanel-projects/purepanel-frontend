@@ -64,6 +64,6 @@ const onSubmit: FormProps['onSubmit'] = ({validateResult}) => {
   }
   localStorage.setItem('token', '1')
   MessagePlugin.success('登录成功')
-  router.replace('/layout')
+  router.replace('/home')
 };
 </script>

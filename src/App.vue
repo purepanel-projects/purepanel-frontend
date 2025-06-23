@@ -8,7 +8,7 @@ import {RouterView, useRouter} from 'vue-router'
 const router = useRouter()
 
 if (localStorage.getItem("token")) {
-  router.replace("/layout")
+  router.replace("/home")
 } else {
   router.replace("/login")
 }

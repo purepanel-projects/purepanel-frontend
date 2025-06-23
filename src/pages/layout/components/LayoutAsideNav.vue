@@ -1,10 +1,17 @@
 <template>
-  <t-menu value="item1" :collapsed="useAsideCollapsedStore().asideCollapsed">
+  <t-menu :value="activeMenu" :collapsed="useAsideCollapsedStore().asideCollapsed"
+          @change="handleMenuChange">
     <template #logo>
       <img class="w-28" src="@/assets/logo-h.png" alt="logo">
     </template>
+    <t-menu-item value="home" :router-link="true" to="/home">
+      <template #icon>
+        <t-icon name="home"/>
+      </template>
+      首页
+    </t-menu-item>
     <t-menu-group title="系统管理">
-      <t-menu-item value="item1" :router-link="true" to="/user">
+      <t-menu-item value="item2" :router-link="true" to="/user">
         <template #icon>
           <t-icon name="usergroup"/>
         </template>
@@ -18,4 +25,11 @@
 </template>
 <script setup lang="ts">
 import {useAsideCollapsedStore} from "@/stores/asideCollapsedStore.ts";
+import {ref} from "vue";
+
+const activeMenu = ref('home')
+
+function handleMenuChange(value: string) {
+  activeMenu.value = value
+}
 </script>

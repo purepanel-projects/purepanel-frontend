@@ -7,10 +7,9 @@ body {
 }
 
 #nprogress .bar {
-    height: 3px !important;
     background-image: linear-gradient(
             to right,
-            var(--td-brand-color),
-            var(--td-success-color) /* 渐变终点色，可替换 */
+            var(--td-brand-color-2),
+            var(--td-brand-color)
     ) !important;
 }
