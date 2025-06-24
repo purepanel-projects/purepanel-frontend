@@ -43,7 +43,6 @@ import {LockOnIcon, UserIcon, VerifiedIcon} from "tdesign-icons-vue-next";
 import type {FormProps} from "tdesign-vue-next";
 import {onMounted, reactive, ref} from "vue";
 import {useRouter} from "vue-router";
-import {MessagePlugin} from 'tdesign-vue-next';
 import {type AccountLoginReq, getCaptchaApi, type GetCaptchaRes, loginApi} from '@/api/loginApi.ts'
 
 const router = useRouter()

@@ -10,10 +10,10 @@ import LoginForm from "@/pages/login/components/LoginForm.vue";
 import LoginHeader from "@/pages/login/components/LoginHeader.vue";
 import {useRouter} from "vue-router";
 
-// const router = useRouter()
-// if (localStorage.getItem('loginInfo')){
-//   router.replace('/home')
-// }
+const router = useRouter()
+if (localStorage.getItem('loginInfo')){
+  router.replace('/home')
+}
 </script>
 
 <style scoped>
