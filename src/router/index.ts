@@ -13,9 +13,10 @@ const router = createRouter({
             component: LoginPage,
         },
         {
-            path: '/layout',
+            path: '/',
             name: 'layout',
             component: Layout,
+            redirect: '/home',
             children: [
                 {
                     path: '/home',

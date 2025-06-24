@@ -10,22 +10,22 @@
             </template>
           </t-input>
         </t-form-item>
-        <t-form-item name="password">
-          <t-input size="large" v-model="formData.password" type="password" clearable placeholder="请输入密码">
+        <t-form-item name="pwd">
+          <t-input size="large" v-model="formData.pwd" type="password" clearable placeholder="请输入密码">
             <template #prefix-icon>
               <lock-on-icon/>
             </template>
           </t-input>
         </t-form-item>
         <t-form-item name="captcha">
-          <div class="flex flex-row gap-4 items-center">
+          <div class="flex flex-row gap-2 items-center">
             <t-input class="max-w-64" size="large" v-model="formData.captcha" clearable placeholder="请输入验证码">
               <template #prefix-icon>
                 <VerifiedIcon/>
               </template>
             </t-input>
             <img @click="getCaptchaData" class="h-[var(--td-comp-size-l)] cursor-pointer rounded-md"
-                 :src="captcha?.captchaBase64" alt=""/>
+                 :src="captchaRes.captchaBase64" alt=""/>
           </div>
         </t-form-item>
         <t-form-item>
@@ -44,7 +44,7 @@ import type {FormProps} from "tdesign-vue-next";
 import {onMounted, reactive, ref} from "vue";
 import {useRouter} from "vue-router";
 import {MessagePlugin} from 'tdesign-vue-next';
-import {getCaptcha, type GetCaptchaRes} from '@/api/loginApi.ts'
+import {type AccountLoginReq, getCaptchaApi, type GetCaptchaRes, loginApi} from '@/api/loginApi.ts'
 
 const router = useRouter()
 
@@ -58,7 +58,7 @@ const formRules: FormProps['rules'] = {
     required: true,
     message: '请输入账号'
   }],
-  password: [
+  pwd: [
     {
       required: true,
       message: '请输入密码'
@@ -79,20 +79,21 @@ const formRules: FormProps['rules'] = {
 }
 
 //获取验证码
-const captcha = ref<GetCaptchaRes>()
+const captchaRes = ref<GetCaptchaRes>({
+  captchaKey: '',
+  captchaBase64: ''
+})
 
 function getCaptchaData() {
-  getCaptcha().then(res => {
-    captcha.value = res.payload
-  }).catch(() => {
-    MessagePlugin.error('获取验证码失败')
+  getCaptchaApi().then(res => {
+    captchaRes.value = res.payload
   })
 }
 
 //定义表单数据
 const formData: FormProps['data'] = reactive({
   account: '',
-  password: '',
+  pwd: '',
   captcha: ''
 });
 //表单提交事件
@@ -100,8 +101,15 @@ const onSubmit: FormProps['onSubmit'] = ({validateResult}) => {
   if (validateResult !== true) {
     return;
   }
-  localStorage.setItem('token', '1')
-  MessagePlugin.success('登录成功')
-  router.replace('/home')
+  const req: AccountLoginReq = {
+    account: formData?.account,
+    pwd: formData?.pwd,
+    captcha: formData?.captcha,
+    captchaKey: captchaRes.value.captchaKey
+  }
+  loginApi(req).then(res => {
+    localStorage.setItem('loginInfo', JSON.stringify(res.payload))
+    router.replace('/home')
+  })
 };
 </script>

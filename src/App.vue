@@ -3,16 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import {RouterView, useRouter} from 'vue-router'
-
-const router = useRouter()
-
-if (localStorage.getItem("token")) {
-  // router.replace("/home")
-} else {
-  router.replace("/login")
-}
-
+import {RouterView} from 'vue-router'
 </script>
 
 <style scoped>

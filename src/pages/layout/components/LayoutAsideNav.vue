@@ -1,5 +1,5 @@
 <template>
-  <t-menu theme="global" :value="activeMenu" :collapsed="useAsideCollapsedStore().asideCollapsed"
+  <t-menu :value="activeMenu" :collapsed="useAsideCollapsedStore().asideCollapsed"
           @change="handleMenuChange" :expandMutex="true">
     <template #logo>
       <img class="w-28" src="@/assets/logo-h.png" alt="logo">
