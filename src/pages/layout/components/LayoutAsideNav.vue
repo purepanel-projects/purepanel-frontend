@@ -5,22 +5,49 @@
       <img class="w-28" src="@/assets/logo-h.png" alt="logo">
     </template>
     <template v-for="menu in menuTree">
-      <template v-if="menu.children.length===0">
-        <t-menu-item :value="menu.id" :router-link="true" :to="menu.path">
+      <t-menu-item v-if="menu.children.length === 0 && menu.menuLevel === 2" :value="menu.id" :router-link="true"
+                   :to="menu.path">
+        <template #icon>
+          <t-icon :name="menu.icon"/>
+        </template>
+        {{ menu.title }}
+      </t-menu-item>
+      <t-submenu v-else-if="menu.children.length > 0 && menu.menuLevel === 2" :title="menu.title"
+                 :value="menu.id">
+        <template #icon>
+          <t-icon :name="menu.icon"/>
+        </template>
+        <t-menu-item v-for="menuItem in menu.children" :router-link="true"
+                     :to="menuItem.path">
           <template #icon>
-            <t-icon :name="menu.icon"/>
+            <t-icon :name="menuItem.icon"/>
           </template>
-          {{ menu.title }}
+          {{ menuItem.title }}
         </t-menu-item>
-      </template>
+      </t-submenu>
       <template v-else>
-        <t-menu-group title="系统管理">
-          <t-menu-item value="item2" :router-link="true" to="/user">
-            <template #icon>
-              <t-icon name="usergroup"/>
-            </template>
-            用户管理
-          </t-menu-item>
+        <t-menu-group :title="menu.title">
+          <template v-for="menuSub in menu.children">
+            <t-menu-item v-if="menuSub.children.length === 0" :value="menuSub.id" :router-link="true"
+                         :to="menuSub.path">
+              <template #icon>
+                <t-icon :name="menuSub.icon"/>
+              </template>
+              {{ menuSub.title }}
+            </t-menu-item>
+            <t-submenu v-else :title="menuSub.title" :value="menuSub.id">
+              <template #icon>
+                <t-icon :name="menuSub.icon"/>
+              </template>
+              <t-menu-item v-for="menuItem in menuSub.children" :router-link="true"
+                           :to="menuItem.path">
+                <template #icon>
+                  <t-icon :name="menuItem.icon"/>
+                </template>
+                {{ menuItem.title }}
+              </t-menu-item>
+            </t-submenu>
+          </template>
         </t-menu-group>
       </template>
     </template>
