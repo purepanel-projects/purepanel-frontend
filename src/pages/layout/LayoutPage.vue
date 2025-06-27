@@ -7,7 +7,7 @@
       <t-header>
         <layout-header/>
       </t-header>
-      <t-content class="overflow-auto">
+      <t-content class="overflow-auto p-3">
         <layout-content/>
       </t-content>
     </t-layout>

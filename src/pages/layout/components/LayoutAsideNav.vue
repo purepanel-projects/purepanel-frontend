@@ -1,55 +1,41 @@
 <template>
-  <t-menu :value="activeMenu" :collapsed="useAsideCollapsedStore().asideCollapsed"
+  <t-menu class="border-r-[var(--td-bg-color-page)] border-r" :value="activeMenu" :collapsed="useAsideCollapsedStore().asideCollapsed"
           @change="handleMenuChange" :expandMutex="true">
     <template #logo>
       <img class="w-28" src="@/assets/logo-h.png" alt="logo">
     </template>
     <template v-for="menu in menuTree">
-      <t-menu-item v-if="menu.children.length === 0 && menu.menuLevel === 2" :value="menu.id" :router-link="true"
-                   :to="menu.path">
-        <template #icon>
-          <t-icon :name="menu.icon"/>
+      <t-menu-group v-if="menu.type === 2" :title="menu.title">
+        <template v-for="menuSub in menu.children">
+          <t-menu-item v-if="menuSub.children.length === 0" :value="menuSub.id" :router-link="true"
+                       :to="menuSub.path">
+            {{ menuSub.title }}
+          </t-menu-item>
+          <t-submenu v-else :title="menuSub.title" :value="menuSub.id">
+            <template #icon>
+              <t-icon :name="menuSub.icon"/>
+            </template>
+            <t-menu-item v-for="menuItem in menuSub.children" :router-link="true" :value="menuItem.id"
+                         :to="menuItem.path">
+              {{ menuItem.title }}
+            </t-menu-item>
+          </t-submenu>
         </template>
-        {{ menu.title }}
-      </t-menu-item>
-      <t-submenu v-else-if="menu.children.length > 0 && menu.menuLevel === 2" :title="menu.title"
+      </t-menu-group>
+      <t-submenu v-else-if="menu.children.length > 0" :title="menu.title"
                  :value="menu.id">
         <template #icon>
           <t-icon :name="menu.icon"/>
         </template>
-        <t-menu-item v-for="menuItem in menu.children" :router-link="true"
+        <t-menu-item v-for="menuItem in menu.children" :router-link="true" :value="menuItem.id"
                      :to="menuItem.path">
-          <template #icon>
-            <t-icon :name="menuItem.icon"/>
-          </template>
           {{ menuItem.title }}
         </t-menu-item>
       </t-submenu>
-      <template v-else>
-        <t-menu-group :title="menu.title">
-          <template v-for="menuSub in menu.children">
-            <t-menu-item v-if="menuSub.children.length === 0" :value="menuSub.id" :router-link="true"
-                         :to="menuSub.path">
-              <template #icon>
-                <t-icon :name="menuSub.icon"/>
-              </template>
-              {{ menuSub.title }}
-            </t-menu-item>
-            <t-submenu v-else :title="menuSub.title" :value="menuSub.id">
-              <template #icon>
-                <t-icon :name="menuSub.icon"/>
-              </template>
-              <t-menu-item v-for="menuItem in menuSub.children" :router-link="true"
-                           :to="menuItem.path">
-                <template #icon>
-                  <t-icon :name="menuItem.icon"/>
-                </template>
-                {{ menuItem.title }}
-              </t-menu-item>
-            </t-submenu>
-          </template>
-        </t-menu-group>
-      </template>
+      <t-menu-item v-else :value="menu.id" :router-link="true"
+                   :to="menu.path">
+        {{ menu.title }}
+      </t-menu-item>
     </template>
     <template #operations>
 

@@ -9,8 +9,13 @@
     <span class="font-bold text-2xl m-2">
       {{ usePageTitleStore().pageTitle }}
     </span>
+    <t-input class="!w-56 !ml-auto mr-4" readonly default-value="搜索菜单">
+      <template #suffixIcon>
+        <t-icon name="search"/>
+      </template>
+    </t-input>
     <template #operations>
-      <div class="flex flex-row items-center !mr-[var(--td-comp-margin-xxl)] gap-2">
+      <div class="flex flex-row items-center mr-[var(--td-comp-margin-xxl)] gap-2">
         <t-button class="!p-2" variant="text">
           <template #icon>
             <t-icon name="notification"/>

@@ -1,8 +1,8 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import Layout from '@/pages/layout/Layout.vue'
-import LoginPage from "@/pages/login/LoginPage.vue";
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import LayoutPage from "@/pages/layout/LayoutPage.vue";
+import LoginPage from "@/pages/login/LoginPage.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,7 +15,7 @@ const router = createRouter({
         {
             path: '/',
             name: 'layout',
-            component: Layout,
+            component: LayoutPage,
             redirect: '/home',
             children: [
                 {
@@ -27,9 +27,24 @@ const router = createRouter({
                     path: '/user',
                     name: 'user',
                     component: () => import('@/pages/system/user/UserList.vue')
+                },
+                {
+                    path: '/permission',
+                    name: 'permission',
+                    component: () => import('@/pages/system/permission/PermissionList.vue')
+                },
+                {
+                    path: '/notFound',
+                    name: 'notFound',
+                    component: () => import('@/pages/notFound/NotFoundPage.vue')
                 }
             ]
         },
+        {
+            path: '/:pathMatch(.*)*',
+            name: 'notFoundRedirect',
+            redirect: "/notFound"
+        }
     ],
 })
 
