@@ -4,7 +4,7 @@
     <template #body>
       <t-form ref="form" :rules="FORM_RULES" :data="formData" :colon="true">
         <t-form-item label="类型" name="type">
-          <t-radio-group variant="primary-filled" v-model="formData.type" default-value="2">
+          <t-radio-group variant="primary-filled" v-model="formData.type">
             <t-radio-button value="0">一级菜单</t-radio-button>
             <t-radio-button value="2">菜单组</t-radio-button>
           </t-radio-group>
@@ -27,8 +27,11 @@ const props = defineProps<Props>()
 const closeDialog: DialogProps['onClose'] = () => {
   props.onClose();
 };
+//定义表单校验规则
+const FORM_RULES: FormProps['rules'] = {
 
+}
 const formData: FormProps['data'] = reactive({
-  type: 2,
+  type: '1',
 });
 </script>
