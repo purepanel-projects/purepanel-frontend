@@ -1,4 +1,4 @@
-export default interface GetUserPermissionRes {
+export default interface GetLoginUserPermissionRes {
     menuTree: SysPermissionTreeListRes[];
     btnList: SysPermission[];
 }
@@ -8,15 +8,15 @@ export interface SysPermissionTreeListRes extends SysPermission {
 }
 
 export interface SysPermission {
-    id: string;
-    pid: string;
+    id?: string;
+    pid?: string;
     type: number;
     path: string;
     title: string;
-    icon: string;
+    icon?: string;
     orderNo: number;
-    isHidden: number;
-    expanded: number;
+    isHidden: boolean;
+    expanded: boolean;
     menuLevel: number;
-    authCode: string;
+    authCode?: string;
 }

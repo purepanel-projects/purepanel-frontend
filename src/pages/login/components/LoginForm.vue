@@ -18,13 +18,13 @@
           </t-input>
         </t-form-item>
         <t-form-item name="captcha">
-          <div class="flex flex-row gap-2 items-center">
-            <t-input class="max-w-64" size="large" v-model="formData.captcha" clearable placeholder="请输入验证码">
+          <div class="flex flex-row items-center w-full">
+            <t-input class="!w-54" size="large" v-model="formData.captcha" clearable placeholder="请输入验证码">
               <template #prefix-icon>
                 <VerifiedIcon/>
               </template>
             </t-input>
-            <img @click="getCaptchaData" class="h-[var(--td-comp-size-l)] cursor-pointer rounded-md"
+            <img @click="getCaptchaData" class="h-[var(--td-comp-size-l)] cursor-pointer rounded-md ml-auto"
                  :src="captchaRes.captchaBase64" alt=""/>
           </div>
         </t-form-item>

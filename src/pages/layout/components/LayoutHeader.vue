@@ -6,7 +6,7 @@
         <t-icon v-else name="menu-unfold"/>
       </template>
     </t-button>
-    <span class="font-bold text-2xl m-2">
+    <span class="font-bold text-xl m-2">
       {{ usePageTitleStore().pageTitle }}
     </span>
     <t-input class="!w-56 !ml-auto mr-4" readonly default-value="搜索菜单">

@@ -45,8 +45,8 @@
 <script setup lang="ts">
 import {useAsideCollapsedStore} from "@/stores/asideCollapsedStore.ts";
 import {onMounted, ref} from "vue";
-import {getLoginUserPermissionApi} from "@/api/permission.ts";
-import type {SysPermissionTreeListRes} from "@/type/GetUserPermissionRes.ts";
+import {getLoginUserPermissionApi} from "@/api/permissionApi.ts";
+import type {SysPermissionTreeListRes} from "@/type/PermissionRes.ts";
 import {useBtnPermissionStore} from "@/stores/btnPermissionStore.ts";
 import {usePageTitleStore} from "@/stores/pageTitleStore.ts";
 
