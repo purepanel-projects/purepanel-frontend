@@ -17,3 +17,7 @@ export function allTreeListApi(): Promise<Res<SysPermissionTreeListRes[]>> {
 export function getLoginUserPermissionApi(): Promise<Res<GetLoginUserPermissionRes>> {
     return request.get('/sysPermission/getLoginUserPermission')
 }
+
+export function deleteApi(id: string): Promise<Res<any>> {
+    return request.delete(`/sysPermission/delete/${id}`)
+}

@@ -4,7 +4,7 @@
       <layout-aside-nav/>
     </t-aside>
     <t-layout class="h-screen">
-      <t-header>
+      <t-header class="border-0">
         <layout-header/>
       </t-header>
       <t-content class="overflow-auto p-3">

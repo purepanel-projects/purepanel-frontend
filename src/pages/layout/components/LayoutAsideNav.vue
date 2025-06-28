@@ -1,5 +1,6 @@
 <template>
-  <t-menu class="border-r-[var(--td-bg-color-page)] border-r" :value="activeMenu" :collapsed="useAsideCollapsedStore().asideCollapsed"
+  <t-menu :value="activeMenu"
+          :collapsed="useAsideCollapsedStore().asideCollapsed"
           @change="handleMenuChange" :expandMutex="true">
     <template #logo>
       <img class="w-28" src="@/assets/logo-h.png" alt="logo">
@@ -62,7 +63,7 @@ function getLoginUserPermission() {
     const menuTreeRes = res.payload.menuTree;
     menuTree.value = menuTreeRes;
     if (menuTreeRes.length > 0) {
-      activeMenu.value = menuTreeRes[0].id
+      activeMenu.value = menuTreeRes[0].id ?? '';
       usePageTitleStore().update(menuTreeRes[0].title)
     }
     useBtnPermissionStore().update(res.payload.btnList)
