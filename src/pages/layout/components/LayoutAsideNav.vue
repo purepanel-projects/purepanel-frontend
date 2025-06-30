@@ -6,10 +6,13 @@
       <img class="w-28" src="@/assets/logo-h.png" alt="logo">
     </template>
     <template v-for="menu in menuTree">
-      <t-menu-group v-if="menu.type === 2" :title="menu.title">
+      <t-menu-group v-if="menu.type === '2'" :title="menu.title">
         <template v-for="menuSub in menu.children">
           <t-menu-item v-if="menuSub.children.length === 0" :value="menuSub.id" :router-link="true"
                        :to="menuSub.path">
+            <template #icon>
+              <t-icon :name="menuSub.icon"/>
+            </template>
             {{ menuSub.title }}
           </t-menu-item>
           <t-submenu v-else :title="menuSub.title" :value="menuSub.id">
@@ -18,6 +21,9 @@
             </template>
             <t-menu-item v-for="menuItem in menuSub.children" :router-link="true" :value="menuItem.id"
                          :to="menuItem.path">
+              <template #icon>
+                <t-icon :name="menuItem.icon"/>
+              </template>
               {{ menuItem.title }}
             </t-menu-item>
           </t-submenu>
@@ -30,11 +36,17 @@
         </template>
         <t-menu-item v-for="menuItem in menu.children" :router-link="true" :value="menuItem.id"
                      :to="menuItem.path">
+          <template #icon>
+            <t-icon :name="menuItem.icon"/>
+          </template>
           {{ menuItem.title }}
         </t-menu-item>
       </t-submenu>
       <t-menu-item v-else :value="menu.id" :router-link="true"
                    :to="menu.path">
+        <template #icon>
+          <t-icon :name="menu.icon"/>
+        </template>
         {{ menu.title }}
       </t-menu-item>
     </template>

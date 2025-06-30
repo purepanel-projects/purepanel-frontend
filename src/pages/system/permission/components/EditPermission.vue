@@ -44,7 +44,7 @@
 </template>
 <script setup lang="ts">
 import {type DialogProps, type FormProps, MessagePlugin, type TreeSelectProps} from "tdesign-vue-next";
-import {onMounted, reactive, ref} from "vue";
+import {onMounted, reactive, ref, watch} from "vue";
 import {addOrUpdateApi, allTreeListApi} from "@/api/permissionApi.ts";
 import type {SysPermission, SysPermissionTreeListRes} from "@/type/PermissionRes.ts";
 
@@ -68,15 +68,34 @@ const parentOptionsTreeProps: TreeSelectProps['treeProps'] = {
 //定义接收的参数
 interface Props {
   dialogVisible: Boolean;
-  onClose: () => void;
-  onSubmitSuccess: () => void;
-  oldData?: SysPermission;
+  oldData?: SysPermission | null;
 }
 
 const props = defineProps<Props>()
+
+watch(() => props.oldData, () => {
+  if (props.oldData) {
+    // 编辑模式
+    formData = reactive({...props.oldData})
+  } else {
+    // 新增模式
+    formData = reactive<SysPermission>({
+      type: '0',
+      orderNo: 0,
+      isHidden: false,
+      expanded: false,
+    });
+  }
+})
+//定义事件
+const emit = defineEmits<{
+  (e: 'update:dialogVisible', value: Boolean): void;
+  (e: 'submit-success'): void;
+}>()
+
 //关闭弹窗
 const closeDialog: DialogProps['onClose'] = () => {
-  props.onClose();
+  emit('update:dialogVisible', false)
 };
 
 //定义表单校验规则
@@ -90,42 +109,34 @@ const FORM_RULES: FormProps['rules'] = {
   ],
 }
 //定义表单数据
-const formData: FormProps['data'] = reactive({
-  type: props.oldData?.type ?? '0',
-  title: props.oldData?.title ?? '',
-  path: props.oldData?.path ?? '',
-  orderNo: props.oldData?.orderNo ?? 0,
-  isHidden: props.oldData?.isHidden ?? false,
-  expanded: props.oldData?.expanded ?? false,
-  id: props.oldData?.id ?? '',
-  pid: props.oldData?.pid ?? '',
-});
+let formData = reactive<SysPermission>({});
 //定义表单提交事件
 const onSubmit: FormProps['onSubmit'] = async ({validateResult}) => {
   if (validateResult !== true) {
     return;
   }
   const data: SysPermission = {
-    type: Number.parseInt(formData?.type),
-    path: formData?.path,
-    title: formData?.title,
-    orderNo: formData?.orderNo,
-    isHidden: formData?.isHidden,
-    expanded: formData?.expanded,
-    id: formData?.id,
-    pid: formData?.pid,
+    type: formData.type,
+    path: formData.path,
+    title: formData.title,
+    orderNo: formData.orderNo,
+    isHidden: formData.isHidden,
+    expanded: formData.expanded,
+    id: formData.id,
+    pid: formData.pid,
+    version: formData.version,
   }
   const res = await addOrUpdateApi(data)
   if (res.status === 200) {
     await MessagePlugin.success('保存成功')
-    props.onClose();
-    props.onSubmitSuccess()
+    emit('update:dialogVisible', false)
+    emit('submit-success')
   }
 };
 
 function handleTypeChange(value: string) {
   if (value === '2') {
-    formData.pid = undefined
+    formData!.pid = undefined
   }
 }
 </script>

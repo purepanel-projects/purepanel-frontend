@@ -1,29 +1,33 @@
 <template>
   <div class="h-full flex flex-col gap-4">
-    <t-form layout="inline" class="">
+    <t-form @reset="resetSearchFormData" @submit="getPermissionTreeList" layout="inline">
       <t-form-item label-width="0">
-        <t-input class="!w-48" placeholder="请输入标题"/>
+        <t-input clearable v-model="searchFormData.title" placeholder="按标题模糊查询"/>
       </t-form-item>
-      <t-form-item label-width="0">
-        <t-input class="!w-64" placeholder="请输入访问路径"/>
+      <t-form-item label-width="0" name="path">
+        <t-input clearable v-model="searchFormData.path" class="!w-64" placeholder="按访问路径模糊查询"/>
+      </t-form-item>
+      <t-form-item label-width="0" name="type">
+        <t-select clearable v-model="searchFormData.type" placeholder="按类型查询">
+          <t-option label="菜单" value="0"/>
+          <t-option label="按钮" value="1"/>
+          <t-option label="菜单组" value="2"/>
+        </t-select>
       </t-form-item>
       <div class="flex flex-row gap-4 ml-auto">
         <t-button type="submit">
-          <template #icon>
-            <t-icon name="search"/>
-          </template>
           查询
         </t-button>
-        <t-button @click="add">
+        <t-button variant="outline" type="reset">
+          重置
+        </t-button>
+        <t-button @click="handelAddClick">
           新建
         </t-button>
       </div>
     </t-form>
-    <edit-permission :key="addDialogKey" :on-close="()=>addDialogVisible = false" :dialog-visible="addDialogVisible"
-                     :on-submit-success="()=> getPermissionData()" :old-data="addInitData"/>
-    <edit-permission :key="updateData?.id" :on-close="()=>updateDialogVisible = false"
-                     :dialog-visible="updateDialogVisible"
-                     :on-submit-success="()=> getPermissionData()" :old-data="updateData"/>
+    <edit-permission :old-data="oldData" v-model:dialog-visible="dialogVisible"
+                     @submit-success="getPermissionTreeList"/>
     <t-enhanced-table resizable bordered stripe ref="tableRef" :data="data" row-key="id" :columns="columns"
                       :tree="treeConfig"/>
   </div>
@@ -40,22 +44,29 @@ import {
   type EnhancedTableProps,
   MessagePlugin
 } from "tdesign-vue-next";
-import {nanoid} from "nanoid";
 
-const addDialogVisible = ref(false);
-const updateData = ref<SysPermission>();
-const addInitData = ref<SysPermission>();
-const updateDialogVisible = ref(false);
+const oldData = ref<SysPermission | null>();
+const dialogVisible = ref(false);
 const tableRef = ref<EnhancedTableInstanceFunctions>();
 const data = ref<SysPermissionTreeListRes[]>();
 
 onMounted(() => {
-  getPermissionData();
+  getPermissionTreeList();
 })
 
 onUpdated(() => {
   tableRef.value?.expandAll()
 })
+
+//定义查询表单数据
+const searchFormData = ref<SysPermission>({})
+
+//重置查询表单数据
+function resetSearchFormData() {
+  searchFormData.value = {}
+  getPermissionTreeList()
+}
+
 //定义表格列
 const columns: EnhancedTableProps['columns'] = [
   {
@@ -64,12 +75,19 @@ const columns: EnhancedTableProps['columns'] = [
     align: "center",
   },
   {
+    title: "图标",
+    align: "center",
+    cell: (h, {row}) => (
+        <t-icon name={row.icon} size="16"/>
+    )
+  },
+  {
     title: "类型",
     align: "center",
     cell: (h, {row}) => (
         <span>
         {
-          row.type === 0 ? '菜单' : row.type === 2 ? '菜单组' : '按钮'
+          row.type === 0 ? '菜单' : row.type === 1 ? '按钮' : '菜单组'
         }
       </span>
     )
@@ -97,30 +115,35 @@ const columns: EnhancedTableProps['columns'] = [
         {
           content: '添加下级',
           onClick: () => {
-            addDialogKey.value = nanoid(32)
-            setTimeout(() => {
-              addDialogVisible.value = true;
-            }, 1)
-            addInitData.value = {
+            oldData.value = {
               pid: row.id,
+              type: '0',
+              orderNo: 0,
             }
+            dialogVisible.value = true;
+          }
+        }, {
+          content: () => {
+            return (
+                <t-popconfirm content={"确认删除吗？如存在下级，也将一并删除。"} onConfirm={() => deleteById(row.id)}>
+                  <div class="text-[var(--td-error-color)]">删除</div>
+                </t-popconfirm>
+            )
           }
         }
       ]
       return (
           <t-space>
             <t-link theme="primary" onClick={() => {
-              updateData.value = {...row, type: row.type.toString()}
-              setTimeout(() => {
-                updateDialogVisible.value = true
-              }, 1)
+              oldData.value = {...row, type: row.type.toString()}
+              dialogVisible.value = true
             }}>编辑
             </t-link>
-            <t-popconfirm content={"确认删除吗"} onConfirm={() => deleteById(row.id)}>
-              <t-link theme="danger">删除</t-link>
-            </t-popconfirm>
-            <t-dropdown options={moreOptions} trigger='click'>
-              <t-link theme="default">更多操作</t-link>
+            <t-dropdown hideAfterItemClick={false} options={moreOptions}>
+              <t-link theme="primary">
+                更多
+                <t-icon name="chevron-down-s"/>
+              </t-link>
             </t-dropdown>
           </t-space>
       )
@@ -138,25 +161,22 @@ const treeConfig: EnhancedTableProps['tree'] = reactive({
 });
 
 //获取表格数据
-async function getPermissionData() {
-  const res = await allTreeListApi()
+async function getPermissionTreeList() {
+  const res = await allTreeListApi(searchFormData.value)
   data.value = res.payload;
+}
+
+//添加按钮点击事件
+function handelAddClick() {
+  oldData.value = null
+  dialogVisible.value = true;
 }
 
 //删除
 function deleteById(id: string) {
-  deleteApi(id).then(res => {
+  deleteApi(id).then(() => {
     MessagePlugin.success('删除成功');
-    getPermissionData();
+    getPermissionTreeList();
   })
-}
-
-const addDialogKey = ref(nanoid(32));
-
-function add() {
-  addDialogKey.value = nanoid(32)
-  setTimeout(() => {
-    addDialogVisible.value = true;
-  }, 1)
 }
 </script>

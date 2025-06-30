@@ -10,8 +10,8 @@ export function addOrUpdateApi(data: SysPermission): Promise<Res<any>> {
     return request.post('/sysPermission/addOrUpdate', data)
 }
 
-export function allTreeListApi(): Promise<Res<SysPermissionTreeListRes[]>> {
-    return request.get('/sysPermission/allTreeList')
+export function allTreeListApi(params?: any): Promise<Res<SysPermissionTreeListRes[]>> {
+    return request.get('/sysPermission/allTreeList', {params})
 }
 
 export function getLoginUserPermissionApi(): Promise<Res<GetLoginUserPermissionRes>> {
