@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <h1>Welcome to the Home Page</h1>
-    <p>This is the home page of your application.</p>
+  <div class="h-full flex justify-center items-center">
+    <h1 class="text-3xl font-bold">👏 欢迎使用 PurePanel</h1>
   </div>
 </template>

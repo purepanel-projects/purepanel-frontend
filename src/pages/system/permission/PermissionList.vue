@@ -26,8 +26,8 @@
         </t-button>
       </div>
     </t-form>
-    <edit-permission :old-data="oldData" v-model:dialog-visible="dialogVisible" :all-tree-list="data"
-                     @submit-success="getPermissionTreeList"/>
+    <permission-form-modal :old-data="oldData" v-model:dialog-visible="dialogVisible" :all-tree-list="data"
+                           @submit-success="getPermissionTreeList"/>
     <t-enhanced-table resizable bordered stripe ref="tableRef" size="small" :data="data" row-key="id" :columns="columns"
                       :tree="treeConfig"/>
   </div>
@@ -35,9 +35,9 @@
 
 <script setup lang="tsx">
 import {ref, onMounted, reactive, onUpdated} from 'vue';
-import EditPermission from "@/pages/system/permission/components/EditPermission.vue";
+import PermissionFormModal from "@/pages/system/permission/components/PermissionFormModal.vue";
 import {allTreeListApi, deleteApi} from "@/api/permissionApi.ts";
-import type {SysPermission, SysPermissionTreeListRes} from "@/type/PermissionRes.ts";
+import type {SysPermission, SysPermissionTreeListRes} from "@/type/Permission.ts";
 import {
   type DropdownProps,
   type EnhancedTableInstanceFunctions,
@@ -119,7 +119,7 @@ const columns: EnhancedTableProps['columns'] = [
         }, {
           content: () => {
             return (
-                <t-popconfirm content={"确认删除吗？如存在下级，也将一并删除。"} onConfirm={() => deleteById(row.id)}>
+                <t-popconfirm content={"如存在下级，也将一并删除。确定删除吗？"} onConfirm={() => deleteById(row.id)}>
                   <div class="text-[var(--td-error-color)]">删除</div>
                 </t-popconfirm>
             )

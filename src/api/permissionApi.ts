@@ -2,7 +2,7 @@ import {
     type GetLoginUserPermissionRes,
     type SysPermission,
     type SysPermissionTreeListRes
-} from "@/type/PermissionRes.ts";
+} from "@/type/Permission.ts";
 import request from "@/api/request.ts";
 import type Res from "@/type/Res.ts";
 

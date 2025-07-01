@@ -4,6 +4,7 @@
 body {
     background-color: var(--td-bg-color-page);
     color: var(--td-text-color-primary);
+    width: 100% !important;
 }
 
 #nprogress .bar {

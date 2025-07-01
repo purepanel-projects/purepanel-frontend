@@ -23,13 +23,10 @@
               :tree-props="parentOptionsTreeProps"
           />
         </t-form-item>
-        <t-form-item v-if="formData.type==='0'||formData.type==='1'" label="访问路径" name="path">
+        <t-form-item v-if="formData.type==='0'" label="访问路径" name="path">
           <t-input v-model="formData.path" placeholder="请输入访问路径"/>
         </t-form-item>
-        <t-form-item label="排序" name="path">
-          <t-input-number v-model="formData.orderNo"/>
-        </t-form-item>
-        <t-form-item v-if="formData.type==='0'||formData.type==='1'" label="图标" name="icon">
+        <t-form-item v-if="formData.type==='0'" label="图标" name="icon">
           <t-select
               v-model="formData.icon"
               placeholder="请选择"
@@ -44,6 +41,9 @@
               {{ formData.icon }}
             </template>
           </t-select>
+        </t-form-item>
+        <t-form-item label="排序" name="path">
+          <t-input-number v-model="formData.orderNo"/>
         </t-form-item>
         <t-form-item label="隐藏" name="isHidden">
           <t-switch v-model="formData.isHidden"/>
@@ -62,7 +62,7 @@
 import {type DialogProps, type FormProps, MessagePlugin, type TreeSelectProps} from "tdesign-vue-next";
 import {reactive, ref, watch} from "vue";
 import {addOrUpdateApi} from "@/api/permissionApi.ts";
-import type {SysPermission, SysPermissionTreeListRes} from "@/type/PermissionRes.ts";
+import type {SysPermission, SysPermissionTreeListRes} from "@/type/Permission.ts";
 import {manifest} from 'tdesign-icons-vue-next';
 
 // 获取全部图标的列表
@@ -77,13 +77,11 @@ const parentOptionsTreeProps: TreeSelectProps['treeProps'] = {
 };
 
 //定义接收的参数
-interface Props {
+const props = defineProps<{
   allTreeList: SysPermissionTreeListRes[] | undefined;
   dialogVisible: Boolean;
   oldData?: SysPermission | null;
-}
-
-const props = defineProps<Props>()
+}>()
 
 watch(() => props.oldData, () => {
   if (props.oldData) {
