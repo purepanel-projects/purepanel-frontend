@@ -26,9 +26,9 @@
         </t-button>
       </div>
     </t-form>
-    <edit-permission :old-data="oldData" v-model:dialog-visible="dialogVisible"
+    <edit-permission :old-data="oldData" v-model:dialog-visible="dialogVisible" :all-tree-list="data"
                      @submit-success="getPermissionTreeList"/>
-    <t-enhanced-table resizable bordered stripe ref="tableRef" :data="data" row-key="id" :columns="columns"
+    <t-enhanced-table resizable bordered stripe ref="tableRef" size="small" :data="data" row-key="id" :columns="columns"
                       :tree="treeConfig"/>
   </div>
 </template>
@@ -72,18 +72,15 @@ const columns: EnhancedTableProps['columns'] = [
   {
     colKey: "title",
     title: "标题",
-    align: "center",
   },
   {
     title: "图标",
-    align: "center",
     cell: (h, {row}) => (
         <t-icon name={row.icon} size="16"/>
     )
   },
   {
     title: "类型",
-    align: "center",
     cell: (h, {row}) => (
         <span>
         {
@@ -95,17 +92,14 @@ const columns: EnhancedTableProps['columns'] = [
   {
     colKey: "path",
     title: "访问路径",
-    align: "center",
   },
   {
     colKey: "orderNo",
     title: "序号",
-    align: "center",
   },
   {
     colKey: "authCode",
     title: "授权编码",
-    align: "center",
   },
   {
     title: "操作",

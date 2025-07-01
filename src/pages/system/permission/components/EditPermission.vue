@@ -16,18 +16,34 @@
         <t-form-item v-if="formData.type==='0'||formData.type==='1'" label="父级" name="pid">
           <t-tree-select
               v-model="formData.pid"
-              :data="parentOptions"
+              :data="allTreeList"
               clearable
               filterable
               placeholder="请选择父级"
               :tree-props="parentOptionsTreeProps"
           />
         </t-form-item>
-        <t-form-item label="访问路径" name="path">
+        <t-form-item v-if="formData.type==='0'||formData.type==='1'" label="访问路径" name="path">
           <t-input v-model="formData.path" placeholder="请输入访问路径"/>
         </t-form-item>
         <t-form-item label="排序" name="path">
           <t-input-number v-model="formData.orderNo"/>
+        </t-form-item>
+        <t-form-item v-if="formData.type==='0'||formData.type==='1'" label="图标" name="icon">
+          <t-select
+              v-model="formData.icon"
+              placeholder="请选择"
+              :popup-props="{ overlayInnerStyle: { width: '360px' } }">
+            <t-option v-for="item in iconOptions" :key="item.stem" :value="item.stem" class="!inline-block !text-2xl">
+              <div>
+                <t-icon :name="item.stem"/>
+              </div>
+            </t-option>
+            <template #valueDisplay>
+              <t-icon :name="formData.icon" class="mr-2"/>
+              {{ formData.icon }}
+            </template>
+          </t-select>
         </t-form-item>
         <t-form-item label="隐藏" name="isHidden">
           <t-switch v-model="formData.isHidden"/>
@@ -44,19 +60,14 @@
 </template>
 <script setup lang="ts">
 import {type DialogProps, type FormProps, MessagePlugin, type TreeSelectProps} from "tdesign-vue-next";
-import {onMounted, reactive, ref, watch} from "vue";
-import {addOrUpdateApi, allTreeListApi} from "@/api/permissionApi.ts";
+import {reactive, ref, watch} from "vue";
+import {addOrUpdateApi} from "@/api/permissionApi.ts";
 import type {SysPermission, SysPermissionTreeListRes} from "@/type/PermissionRes.ts";
+import {manifest} from 'tdesign-icons-vue-next';
 
-const parentOptions = ref<SysPermissionTreeListRes[]>([])
+// 获取全部图标的列表
+const iconOptions = ref(manifest);
 
-onMounted(() => {
-  allTreeListApi().then(res => {
-    if (res.status === 200) {
-      parentOptions.value = res.payload
-    }
-  })
-})
 const parentOptionsTreeProps: TreeSelectProps['treeProps'] = {
   keys: {
     label: 'title',
@@ -67,6 +78,7 @@ const parentOptionsTreeProps: TreeSelectProps['treeProps'] = {
 
 //定义接收的参数
 interface Props {
+  allTreeList: SysPermissionTreeListRes[] | undefined;
   dialogVisible: Boolean;
   oldData?: SysPermission | null;
 }
@@ -125,6 +137,7 @@ const onSubmit: FormProps['onSubmit'] = async ({validateResult}) => {
     id: formData.id,
     pid: formData.pid,
     version: formData.version,
+    icon: formData.icon,
   }
   const res = await addOrUpdateApi(data)
   if (res.status === 200) {
@@ -136,7 +149,9 @@ const onSubmit: FormProps['onSubmit'] = async ({validateResult}) => {
 
 function handleTypeChange(value: string) {
   if (value === '2') {
-    formData!.pid = undefined
+    formData.pid = undefined
+    formData.path = undefined
+    formData.icon = undefined
   }
 }
 </script>
