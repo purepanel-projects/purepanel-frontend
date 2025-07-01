@@ -55,9 +55,7 @@ router.beforeEach((to, from, next) => {
     next()
 })
 router.afterEach(() => {
-    setTimeout(() => {
-        NProgress.done()
-    }, 300)
+    NProgress.done()
 })
 
 export default router
