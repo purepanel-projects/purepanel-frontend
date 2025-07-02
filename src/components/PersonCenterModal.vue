@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import type {DialogProps} from "tdesign-vue-next";
 
-
+//定义接收的参数
 const props = defineProps<{
   dialogVisible: Boolean;
 }>()

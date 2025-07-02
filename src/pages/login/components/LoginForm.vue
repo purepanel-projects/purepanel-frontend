@@ -2,7 +2,7 @@
   <div class="ml-26 gap-6 flex flex-col h-screen justify-center w-[410px]">
     <div class="p-10 flex flex-col gap-6 rounded-xl backdrop-blur-md">
       <span class="text-4xl/14 font-bold">登录到<br/>PurePanel</span>
-      <t-form ref="form" :data="formData" :label-width="0" @submit="onSubmit" :rules="FORM_RULES">
+      <t-form :data="formData" :label-width="0" @submit="handleSubmit" :rules="formRules">
         <t-form-item name="account">
           <t-input size="large" v-model="formData.account" clearable placeholder="请输入账号">
             <template #prefix-icon>
@@ -52,7 +52,7 @@ onMounted(() => {
 })
 
 //定义表单校验规则
-const FORM_RULES: FormProps['rules'] = {
+const formRules: FormProps['rules'] = {
   account: [{
     required: true,
     message: '请输入账号'
@@ -96,8 +96,8 @@ const formData: FormProps['data'] = reactive({
   captcha: ''
 });
 //表单提交事件
-const onSubmit: FormProps['onSubmit'] = ({validateResult}) => {
-  if (validateResult !== true) {
+const handleSubmit: FormProps['onSubmit'] = ({validateResult}) => {
+  if (!validateResult) {
     return;
   }
   const req: AccountLoginReq = {

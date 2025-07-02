@@ -1,5 +1,5 @@
 <template>
-  <t-form ref="form" :rules="FORM_RULES" :data="formData" @submit="onSubmit">
+  <t-form :rules="formRules" :data="formData" @submit="handleSubmit">
     <t-dialog :visible="dialogVisible" :close-btn="true" :on-close="closeDialog">
       <template #header>填写菜单权限信息</template>
       <template #body>
@@ -109,20 +109,19 @@ const closeDialog: DialogProps['onClose'] = () => {
 };
 
 //定义表单校验规则
-const FORM_RULES: FormProps['rules'] = {
+const formRules: FormProps['rules'] = {
   title: [
     {
       required: true,
       message: '请输入标题',
-      trigger: 'blur'
     },
   ],
 }
 //定义表单数据
 let formData = reactive<SysPermission>({});
 //定义表单提交事件
-const onSubmit: FormProps['onSubmit'] = async ({validateResult}) => {
-  if (validateResult !== true) {
+const handleSubmit: FormProps['onSubmit'] = ({validateResult}) => {
+  if (!validateResult) {
     return;
   }
   const data: SysPermission = {
@@ -137,12 +136,13 @@ const onSubmit: FormProps['onSubmit'] = async ({validateResult}) => {
     version: formData.version,
     icon: formData.icon,
   }
-  const res = await addOrUpdateApi(data)
-  if (res.status === 200) {
-    await MessagePlugin.success('保存成功')
-    emit('update:dialogVisible', false)
-    emit('submit-success')
-  }
+  addOrUpdateApi(data).then(res => {
+    if (res.status === 200) {
+      MessagePlugin.success('保存成功')
+      emit('update:dialogVisible', false)
+      emit('submit-success')
+    }
+  })
 };
 
 function handleTypeChange(value: string) {

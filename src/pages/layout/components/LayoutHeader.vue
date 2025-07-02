@@ -36,6 +36,7 @@
     </template>
   </t-head-menu>
   <person-center-modal v-model:dialog-visible="personCenterDialogVisible"/>
+  <change-pwd-modal v-model:dialog-visible="changePwdDialogVisible" :need-old-pwd="true"/>
 </template>
 <script setup lang="tsx">
 import {useAsideCollapsedStore} from '@/stores/asideCollapsedStore.ts'
@@ -44,9 +45,15 @@ import {onMounted, onUnmounted, ref} from "vue";
 import PersonCenterModal from "@/components/PersonCenterModal.vue";
 import type {DropdownProps} from "tdesign-vue-next";
 import {KeyIcon, UserIcon, SettingIcon, LogoutIcon} from "tdesign-icons-vue-next";
+import {useRouter} from "vue-router";
+import ChangePwdModal from "@/components/ChangePwdModal.vue";
+
+const router = useRouter()
+
 
 const isFullScreen = ref(false)
 const personCenterDialogVisible = ref(false);
+const changePwdDialogVisible = ref(false);
 const avatarDropdownOptions: DropdownProps['options'] = [
   {
     content: '个人中心',
@@ -59,7 +66,7 @@ const avatarDropdownOptions: DropdownProps['options'] = [
     content: '修改密码',
     prefixIcon: () => <KeyIcon/>,
     onClick: () => {
-
+      changePwdDialogVisible.value = true
     }
   },
   {
@@ -74,7 +81,8 @@ const avatarDropdownOptions: DropdownProps['options'] = [
     content: '退出登录',
     prefixIcon: () => <LogoutIcon/>,
     onClick: () => {
-
+      localStorage.removeItem('loginInfo')
+      router.replace('/login')
     }
   },
 ]

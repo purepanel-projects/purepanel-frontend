@@ -37,6 +37,7 @@ request.interceptors.response.use(response => {
     //只取业务数据部分
     const res: Res<any> = response.data
     if (res.status === STATUS_CODE.UNAUTHORIZED) {
+        MessagePlugin.error(res.msg)
         localStorage.removeItem("loginInfo")
         router.replace('/login')
     } else if (res.status === STATUS_CODE.FAIL) {
