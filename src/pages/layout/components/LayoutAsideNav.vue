@@ -3,7 +3,8 @@
           :collapsed="useAsideCollapsedStore().asideCollapsed"
           @change="handleMenuChange" :expandMutex="true">
     <template #logo>
-      <img class="w-28" src="@/assets/logo-h.png" alt="logo">
+      <img v-if="useAsideCollapsedStore().asideCollapsed" class="w-8" src="@/assets/logo-bg.png" alt="logo">
+      <img v-else class="!ml-0 w-50" src="@/assets/logo-h.png" alt="logo">
     </template>
     <!--遍历菜单树-->
     <template v-for="menu in menuTree" :key="menu.id">
@@ -27,7 +28,8 @@
                 &nbsp;
               </template>
             </template>
-            <t-menu-item v-for="menuItem in menuSub.children" :key="menuItem.id" :router-link="true" :value="menuItem.id"
+            <t-menu-item v-for="menuItem in menuSub.children" :key="menuItem.id" :router-link="true"
+                         :value="menuItem.id"
                          :to="menuItem.path">
               <template #icon>
                 <t-icon :name="menuItem.icon"/>
