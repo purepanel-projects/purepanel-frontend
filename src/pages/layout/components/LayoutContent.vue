@@ -1,5 +1,5 @@
 <template>
-  <RouterView class="bg-[var(--td-bg-color-container)] rounded-md p-6"/>
+  <RouterView/>
 </template>
 <script setup lang="ts">
 import {RouterView} from 'vue-router'

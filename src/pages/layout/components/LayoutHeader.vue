@@ -44,7 +44,7 @@ import {usePageTitleStore} from "@/stores/pageTitleStore.ts";
 import {onMounted, onUnmounted, ref} from "vue";
 import PersonCenterModal from "@/components/PersonCenterModal.vue";
 import type {DropdownProps} from "tdesign-vue-next";
-import {KeyIcon, UserIcon, SettingIcon, LogoutIcon} from "tdesign-icons-vue-next";
+import {KeyIcon, UserIcon, SettingIcon, SunnyIcon, LogoutIcon, MoonIcon} from "tdesign-icons-vue-next";
 import {useRouter} from "vue-router";
 import ChangePwdModal from "@/components/ChangePwdModal.vue";
 
@@ -55,6 +55,23 @@ const isFullScreen = ref(false)
 const personCenterDialogVisible = ref(false);
 const changePwdDialogVisible = ref(false);
 const avatarDropdownOptions: DropdownProps['options'] = [
+  {
+    content: '浅色模式',
+    prefixIcon: () => <SunnyIcon/>,
+    onClick: () => {
+      document.documentElement.removeAttribute("theme-mode");
+      localStorage.removeItem('theme-mode')
+    }
+  },
+  {
+    content: '深色模式',
+    prefixIcon: () => <MoonIcon/>,
+    onClick: () => {
+      document.documentElement.setAttribute("theme-mode", "dark");
+      localStorage.setItem('theme-mode', 'dark')
+    },
+    divider: true,
+  },
   {
     content: '个人中心',
     prefixIcon: () => <UserIcon/>,
@@ -69,14 +86,14 @@ const avatarDropdownOptions: DropdownProps['options'] = [
       changePwdDialogVisible.value = true
     }
   },
-  {
-    content: '设置',
-    prefixIcon: () => <SettingIcon/>,
-    onClick: () => {
-
-    },
-    divider: true,
-  },
+  // {
+  //   content: '设置',
+  //   prefixIcon: () => <SettingIcon/>,
+  //   onClick: () => {
+  //
+  //   },
+  //   divider: true,
+  // },
   {
     content: '退出登录',
     prefixIcon: () => <LogoutIcon/>,

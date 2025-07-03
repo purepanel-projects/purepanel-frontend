@@ -1,5 +1,6 @@
 @import "@/assets/td-theme.css";
 @import "tailwindcss";
+@custom-variant dark (&:where([theme-mode=dark], [theme-mode=dark] *));
 
 body {
     background-color: var(--td-bg-color-page);

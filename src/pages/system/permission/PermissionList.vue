@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full flex flex-col gap-4">
+  <div class="bg-[var(--td-bg-color-container)] rounded-md h-full flex flex-col gap-4 p-6">
     <t-form @reset="resetSearchFormData" @submit="getPermissionTreeList" layout="inline">
       <t-form-item label-width="0">
         <t-input clearable v-model="searchFormData.title" placeholder="按标题模糊查询"/>

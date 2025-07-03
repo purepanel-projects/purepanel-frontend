@@ -1,5 +1,6 @@
 <template>
-  <div id="page" class="flex flex-col h-screen justify-center bg-cover bg-[100%] bg-[url(https://static.tdesign.tencent.com/starter/vue-next/assets/assets-login-bg-white-DhCleFXy.png)]">
+  <div id="page" class="flex flex-col h-screen justify-center bg-cover
+  bg-[100%] bg-[url(@/assets/assets-login-bg-white.png)] dark:bg-[url(@/assets/assets-login-bg-black.png)]">
     <login-header/>
     <login-form/>
   </div>
@@ -11,7 +12,7 @@ import LoginHeader from "@/pages/login/components/LoginHeader.vue";
 import {useRouter} from "vue-router";
 
 const router = useRouter()
-if (localStorage.getItem('loginInfo')){
+if (localStorage.getItem('loginInfo')) {
   router.replace('/home')
 }
 </script>
