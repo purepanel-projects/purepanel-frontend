@@ -2,9 +2,9 @@ import {
     type GetLoginUserPermissionRes,
     type SysPermission,
     type SysPermissionTreeListRes
-} from "@/type/SysPermission.ts";
+} from "@/types/SysPermission.ts";
 import request from "@/api/request.ts";
-import type Res from "@/type/Res.ts";
+import type Res from "@/types/Res.ts";
 
 //新增或修改
 export function addOrUpdateApi(req: SysPermission): Promise<Res<any>> {

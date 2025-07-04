@@ -1,5 +1,5 @@
 import request from "@/api/request.ts";
-import type Res from "@/type/Res.ts";
+import type Res from "@/types/Res.ts";
 
 //获取验证码
 export interface GetCaptchaRes {

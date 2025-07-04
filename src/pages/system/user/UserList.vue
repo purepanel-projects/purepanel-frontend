@@ -29,7 +29,7 @@
 import PageCard from "@/components/PageCard.vue";
 import {onMounted, ref} from "vue";
 import {userPageListApi} from "@/api/userApi.ts";
-import type {SysUser} from "@/type/SysUser.ts";
+import type {SysUser} from "@/types/SysUser.ts";
 import type {DropdownProps, EnhancedTableProps} from "tdesign-vue-next";
 
 const data = ref<SysUser[]>();

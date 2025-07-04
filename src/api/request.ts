@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type Res from "@/type/Res.ts";
+import type Res from "@/types/Res.ts";
 import {MessagePlugin} from 'tdesign-vue-next';
 import router from "@/router";
 

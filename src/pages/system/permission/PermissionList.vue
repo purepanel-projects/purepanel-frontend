@@ -37,7 +37,7 @@
 import {ref, onMounted, reactive, onUpdated} from 'vue';
 import PermissionFormModal from "@/pages/system/permission/components/PermissionFormModal.vue";
 import {allTreeListApi, deleteApi} from "@/api/permissionApi.ts";
-import type {SysPermission, SysPermissionTreeListRes} from "@/type/SysPermission.ts";
+import type {SysPermission, SysPermissionTreeListRes} from "@/types/SysPermission.ts";
 import {
   type DropdownProps,
   type EnhancedTableInstanceFunctions,
