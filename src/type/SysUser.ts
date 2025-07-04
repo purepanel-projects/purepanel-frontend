@@ -1,4 +1,4 @@
-export interface User {
+export interface SysUser {
     id?: string;
     name?: string;
     account?: string;

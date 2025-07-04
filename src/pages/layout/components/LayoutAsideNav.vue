@@ -80,7 +80,7 @@
 import {useAsideCollapsedStore} from "@/stores/asideCollapsedStore.ts";
 import {onMounted, ref} from "vue";
 import {getLoginUserPermissionApi} from "@/api/permissionApi.ts";
-import type {SysPermissionTreeListRes} from "@/type/Permission.ts";
+import type {SysPermissionTreeListRes} from "@/type/SysPermission.ts";
 import {useBtnPermissionStore} from "@/stores/btnPermissionStore.ts";
 import {usePageTitleStore} from "@/stores/pageTitleStore.ts";
 

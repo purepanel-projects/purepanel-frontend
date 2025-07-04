@@ -14,17 +14,17 @@
           <t-option label="菜单组" value="2"/>
         </t-select>
       </t-form-item>
-      <div class="flex flex-row gap-4 ml-auto">
+      <div class="flex flex-row gap-4">
         <t-button type="submit">
           查询
         </t-button>
         <t-button variant="outline" type="reset">
           重置
         </t-button>
-        <t-button @click="handelAddClick">
-          新建
-        </t-button>
       </div>
+      <t-button class="!ml-auto" @click="handelAddClick">
+        新建
+      </t-button>
     </t-form>
     <permission-form-modal :old-data="oldData" v-model:dialog-visible="dialogVisible" :all-tree-list="data"
                            @submit-success="getPermissionTreeList"/>
@@ -37,7 +37,7 @@
 import {ref, onMounted, reactive, onUpdated} from 'vue';
 import PermissionFormModal from "@/pages/system/permission/components/PermissionFormModal.vue";
 import {allTreeListApi, deleteApi} from "@/api/permissionApi.ts";
-import type {SysPermission, SysPermissionTreeListRes} from "@/type/Permission.ts";
+import type {SysPermission, SysPermissionTreeListRes} from "@/type/SysPermission.ts";
 import {
   type DropdownProps,
   type EnhancedTableInstanceFunctions,

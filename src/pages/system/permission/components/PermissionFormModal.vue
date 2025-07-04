@@ -62,7 +62,7 @@
 import {type DialogProps, type FormProps, MessagePlugin, type TreeSelectProps} from "tdesign-vue-next";
 import {reactive, ref, watch} from "vue";
 import {addOrUpdateApi} from "@/api/permissionApi.ts";
-import type {SysPermission, SysPermissionTreeListRes} from "@/type/Permission.ts";
+import type {SysPermission, SysPermissionTreeListRes} from "@/type/SysPermission.ts";
 import {manifest} from 'tdesign-icons-vue-next';
 
 // 获取全部图标的列表
