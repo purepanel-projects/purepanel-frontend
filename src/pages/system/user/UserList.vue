@@ -16,22 +16,43 @@
         </t-button>
       </div>
       <div class="flex flex-row gap-4 ml-auto">
-        <t-button>
-          新建
+        <t-button @click="childrenComponentVisible.formDrawer=true">
+          新增
         </t-button>
       </div>
     </t-form>
-    <t-enhanced-table resizable bordered stripe ref="tableRef" size="small" :data="data" row-key="id"
+    <t-enhanced-table resizable
+                      bordered
+                      stripe
+                      :pagination="pagination"
+                      @page-change="onPageChange"
+                      ref="tableRef"
+                      size="small"
+                      :data="data"
+                      row-key="id"
                       :columns="columns"/>
+    <change-pwd-modal v-model:dialog-visible="childrenComponentVisible.changePwdModal"
+                      :user-id="currentOperateUserInfo.id"/>
+    <user-form-drawer v-model:drawer-visible="childrenComponentVisible.formDrawer"/>
   </page-card>
 </template>
 <script setup lang="tsx">
 import PageCard from "@/components/PageCard.vue";
 import {onMounted, ref} from "vue";
-import {userPageListApi} from "@/api/userApi.ts";
+import {addOrUpdateUserApi, userPageListApi} from "@/api/userApi.ts";
 import type {SysUser} from "@/types/SysUser.ts";
-import type {DropdownProps, EnhancedTableProps} from "tdesign-vue-next";
+import {type DropdownProps, type EnhancedTableProps, MessagePlugin, type TableProps} from "tdesign-vue-next";
+import ChangePwdModal from "@/components/ChangePwdModal.vue";
+import UserFormDrawer from "@/pages/system/user/components/UserFormDrawer.vue";
 
+//子组件显隐控制
+const childrenComponentVisible = ref({
+  changePwdModal: false,
+  formDrawer: false,
+});
+//当前操作的用户信息
+const currentOperateUserInfo = ref<SysUser>({});
+//表格数据定义
 const data = ref<SysUser[]>();
 //查询表单数据
 const searchFormData = ref<{
@@ -46,7 +67,7 @@ onMounted(() => {
 //重置查询表单数据
 function resetSearchFormData() {
   searchFormData.value = {}
-
+  getUserPageList()
 }
 
 //定义表格列
@@ -95,14 +116,16 @@ const columns: EnhancedTableProps['columns'] = [
         {
           content: '重置密码',
           onClick: () => {
-
+            currentOperateUserInfo.value.id = row.id;
+            childrenComponentVisible.value.changePwdModal = true;
           }
         },
         {
           content: () => {
             return (
-                <t-popconfirm content={"确定禁用吗？"}>
-                  <div>禁用</div>
+                <t-popconfirm content={"确定更改状态吗？"}
+                              onConfirm={() => changeUserStatus(row.status, row.id)}>
+                  <div>{row.status === 1 ? '禁用' : '启用'}</div>
                 </t-popconfirm>
             )
           }
@@ -119,7 +142,7 @@ const columns: EnhancedTableProps['columns'] = [
       ]
       return (<t-space>
         <t-link theme="primary" onClick={() => {
-
+          childrenComponentVisible.value.formDrawer = true
         }}>编辑
         </t-link>
         <t-dropdown hideAfterItemClick={false} options={moreOptions}>
@@ -132,16 +155,41 @@ const columns: EnhancedTableProps['columns'] = [
     }
   }
 ]
+//分页对象
+const pagination = ref<TableProps['pagination']>({
+  pageSize: 10,
+  total: 0,
+  current: 1,
+  showJumper: true,
+});
+//分页变化事件
+const onPageChange: TableProps['onPageChange'] = (pageInfo) => {
+  pagination.value!!.current = pageInfo.current;
+  pagination.value!!.pageSize = pageInfo.pageSize;
+  getUserPageList();
+};
 
 //获取表格数据
 function getUserPageList() {
   userPageListApi({
-    current: 1,
-    size: 10,
+    current: pagination.value?.current!!,
+    size: pagination.value?.pageSize!!,
     name: searchFormData.value.name,
     account: searchFormData.value.account,
   }).then(res => {
     data.value = res.payload.records
+    pagination.value!!.total = res.payload.total
+  })
+}
+
+//修改用户状态
+function changeUserStatus(currentStatus: number, id: string) {
+  addOrUpdateUserApi({
+    id: id,
+    status: currentStatus === 1 ? 0 : 1,
+  }).then(() => {
+    MessagePlugin.success('修改成功');
+    getUserPageList()
   })
 }
 </script>

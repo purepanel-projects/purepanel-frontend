@@ -97,7 +97,7 @@ const formData: FormProps['data'] = reactive({
 });
 //表单提交事件
 const handleSubmit: FormProps['onSubmit'] = ({validateResult}) => {
-  if (!validateResult) {
+  if (validateResult !== true) {
     return;
   }
   const req: AccountLoginReq = {

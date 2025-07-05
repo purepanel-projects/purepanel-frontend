@@ -1,6 +1,6 @@
 <template>
   <t-form :rules="formRules" :data="formData" @submit="handleSubmit">
-    <t-dialog :visible="dialogVisible" :close-btn="true" :on-close="closeDialog">
+    <t-dialog destroy-on-close :visible="dialogVisible" :close-btn="true" :on-close="closeDialog">
       <template #header>填写菜单权限信息</template>
       <template #body>
         <t-form-item label="标题" name="title">
@@ -20,8 +20,14 @@
               clearable
               filterable
               placeholder="请选择父级"
-              :tree-props="parentOptionsTreeProps"
+              :tree-props="parentOptionsTree"
           />
+        </t-form-item>
+        <t-form-item v-if="formData.type==='1'" label="授权编码" name="authCode">
+          <t-input v-model="formData.authCode" placeholder="请输入授权编码"/>
+          <t-popup content="用于控制按钮和对应接口的权限">
+            <t-icon class="ml-2" name="help-circle"/>
+          </t-popup>
         </t-form-item>
         <t-form-item v-if="formData.type==='0'" label="访问路径" name="path">
           <t-input v-model="formData.path" placeholder="请输入访问路径"/>
@@ -44,12 +50,12 @@
         </t-form-item>
         <t-form-item label="排序" name="path">
           <t-input-number v-model="formData.orderNo"/>
+          <t-popup content="数字越小，排序越靠前">
+            <t-icon class="ml-2" name="help-circle"/>
+          </t-popup>
         </t-form-item>
         <t-form-item label="隐藏" name="isHidden">
           <t-switch v-model="formData.isHidden"/>
-        </t-form-item>
-        <t-form-item label="默认展开" name="expanded">
-          <t-switch v-model="formData.expanded"/>
         </t-form-item>
       </template>
       <template #footer>
@@ -68,7 +74,7 @@ import {manifest} from 'tdesign-icons-vue-next';
 // 获取全部图标的列表
 const iconOptions = ref(manifest);
 
-const parentOptionsTreeProps: TreeSelectProps['treeProps'] = {
+const parentOptionsTree: TreeSelectProps['treeProps'] = {
   keys: {
     label: 'title',
     value: 'id',
@@ -93,7 +99,6 @@ watch(() => props.oldData, () => {
       type: '0',
       orderNo: 0,
       isHidden: false,
-      expanded: false,
     });
   }
 })
@@ -107,7 +112,6 @@ const emit = defineEmits<{
 const closeDialog: DialogProps['onClose'] = () => {
   emit('update:dialogVisible', false)
 };
-
 //定义表单校验规则
 const formRules: FormProps['rules'] = {
   title: [
@@ -117,11 +121,12 @@ const formRules: FormProps['rules'] = {
     },
   ],
 }
+
 //定义表单数据
 let formData = reactive<SysPermission>({});
 //定义表单提交事件
 const handleSubmit: FormProps['onSubmit'] = ({validateResult}) => {
-  if (!validateResult) {
+  if (validateResult !== true) {
     return;
   }
   const data: SysPermission = {
@@ -130,18 +135,16 @@ const handleSubmit: FormProps['onSubmit'] = ({validateResult}) => {
     title: formData.title,
     orderNo: formData.orderNo,
     isHidden: formData.isHidden,
-    expanded: formData.expanded,
     id: formData.id,
     pid: formData.pid,
     version: formData.version,
     icon: formData.icon,
+    authCode: formData.authCode,
   }
-  addOrUpdateApi(data).then(res => {
-    if (res.status === 200) {
-      MessagePlugin.success('保存成功')
-      emit('update:dialogVisible', false)
-      emit('submit-success')
-    }
+  addOrUpdateApi(data).then(() => {
+    MessagePlugin.success('保存成功')
+    emit('update:dialogVisible', false)
+    emit('submit-success')
   })
 };
 

@@ -13,6 +13,11 @@ export function userPageListApi(req: UserPageListReq): Promise<Res<PageRes<SysUs
     return request.post('/sysUser/pageList', req)
 }
 
+//新增或更新用户
+export function addOrUpdateUserApi(sysUser: SysUser): Promise<Res<any>> {
+    return request.post('/sysUser/addOrUpdate', sysUser)
+}
+
 //修改密码
 export interface ChangePwdReq {
     oldPwd?: string,

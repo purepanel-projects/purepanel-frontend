@@ -16,7 +16,6 @@ export interface SysPermission {
     icon?: string;
     orderNo?: number;
     isHidden?: boolean;
-    expanded?: boolean;
     menuLevel?: number;
     authCode?: string;
     version?: number;

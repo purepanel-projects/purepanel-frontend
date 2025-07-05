@@ -9,3 +9,7 @@ export interface SysUser {
     email?: string;
     phoneNumber?: string;
 }
+
+export interface AddSysUserFormData extends SysUser {
+    confirmPwd?: string;
+}

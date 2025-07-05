@@ -4,7 +4,7 @@
           @change="handleMenuChange" :expandMutex="true">
     <template #logo>
       <img v-if="useAsideCollapsedStore().asideCollapsed" class="w-8" src="@/assets/logo-bg.png" alt="logo">
-      <img v-else class="!ml-0 w-50" src="@/assets/logo-h.png" alt="logo">
+      <img v-else class="w-42" src="@/assets/logo-h.png" alt="logo">
     </template>
     <!--遍历菜单树-->
     <template v-for="menu in menuTree" :key="menu.id">

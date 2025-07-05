@@ -26,7 +26,7 @@
             <t-icon name="notification"/>
           </template>
         </t-button>
-        <t-dropdown :options="avatarDropdownOptions" trigger="click">
+        <t-dropdown :options="avatarDropdownOptions">
           <t-button class="!p-2" variant="text">
             <t-avatar class="" size="small" shape="circle"
                       image="https://ui.shadcn.com/avatars/shadcn.jpg"/>

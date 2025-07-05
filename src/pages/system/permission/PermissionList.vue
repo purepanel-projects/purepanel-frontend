@@ -23,7 +23,7 @@
         </t-button>
       </div>
       <t-button class="!ml-auto" @click="handelAddClick">
-        新建
+        新增
       </t-button>
     </t-form>
     <permission-form-modal :old-data="oldData" v-model:dialog-visible="dialogVisible" :all-tree-list="data"

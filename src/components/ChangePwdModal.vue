@@ -1,11 +1,11 @@
 <template>
   <t-form :rules="formRules" :data="formData" @submit="handleSubmit">
-    <t-dialog :visible="dialogVisible" :close-btn="true" :on-close="closeDialog">
+    <t-dialog destroy-on-close :visible="dialogVisible" :close-btn="true" :on-close="closeDialog">
       <template #header>
         修改密码
       </template>
       <template #body>
-        <div class="h-44">
+        <div ref="boxRef" class="h-26">
           <t-form-item v-if="needOldPwd" label="旧密码" name="oldPwd">
             <t-input v-model="formData.oldPwd" type="password" placeholder="请输入旧密码"/>
           </t-form-item>
@@ -25,7 +25,7 @@
 </template>
 <script setup lang="ts">
 import {type DialogProps, type FormProps, MessagePlugin} from "tdesign-vue-next";
-import {reactive} from "vue";
+import {onUpdated, reactive, ref} from "vue";
 import {changePwdApi, changeSelfPwdApi} from "@/api/userApi.ts";
 
 //定义接收的参数
@@ -38,6 +38,13 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'update:dialogVisible', value: Boolean): void;
 }>()
+//盒子 ref，在需要旧密码输入框时，加大高度
+const boxRef = ref<HTMLDivElement>();
+onUpdated(() => {
+  if (props.needOldPwd) {
+    boxRef.value?.classList.add('!h-44')
+  }
+})
 //定义表单校验规则
 const formRules: FormProps['rules'] = {
   oldPwd: [
@@ -86,17 +93,15 @@ const closeDialog: DialogProps['onClose'] = () => {
 };
 //提交表单
 const handleSubmit: FormProps['onSubmit'] = ({validateResult}) => {
-  if (!validateResult) {
+  if (validateResult !== true) {
     return;
   }
   if (props.needOldPwd) {
     changeSelfPwdApi({
       oldPwd: formData.oldPwd,
       newPwd: formData.newPwd!
-    }).then((res) => {
-      if (res.status === 200) {
-        MessagePlugin.success('修改成功')
-      }
+    }).then(() => {
+      MessagePlugin.success('修改成功')
       emit('update:dialogVisible', false)
     })
   } else {
@@ -104,10 +109,8 @@ const handleSubmit: FormProps['onSubmit'] = ({validateResult}) => {
       oldPwd: formData.oldPwd,
       newPwd: formData.newPwd!,
       userId: props.userId
-    }).then((res) => {
-      if (res.status === 200) {
-        MessagePlugin.success('修改成功')
-      }
+    }).then(() => {
+      MessagePlugin.success('修改成功')
       emit('update:dialogVisible', false)
     })
   }
