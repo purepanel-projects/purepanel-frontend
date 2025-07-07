@@ -25,9 +25,9 @@
         </t-form-item>
         <t-form-item v-if="formData.type==='1'" label="授权编码" name="authCode">
           <t-input v-model="formData.authCode" placeholder="请输入授权编码"/>
-          <t-popup content="用于控制按钮和对应接口的权限">
+          <t-tooltip content="用于控制按钮和对应接口的权限">
             <t-icon class="ml-2" name="help-circle"/>
-          </t-popup>
+          </t-tooltip>
         </t-form-item>
         <t-form-item v-if="formData.type==='0'" label="访问路径" name="path">
           <t-input v-model="formData.path" placeholder="请输入访问路径"/>
@@ -50,9 +50,9 @@
         </t-form-item>
         <t-form-item label="排序" name="path">
           <t-input-number v-model="formData.orderNo"/>
-          <t-popup content="数字越小，排序越靠前">
+          <t-tooltip content="数字越小，排序越靠前">
             <t-icon class="ml-2" name="help-circle"/>
-          </t-popup>
+          </t-tooltip>
         </t-form-item>
         <t-form-item label="隐藏" name="isHidden">
           <t-switch v-model="formData.isHidden"/>

@@ -102,6 +102,10 @@ const columns: EnhancedTableProps['columns'] = [
     title: "授权编码",
   },
   {
+    colKey: "updateTime",
+    title: "更新时间",
+  },
+  {
     title: "操作",
     align: "center",
     cell: (h, {row}) => {
@@ -149,7 +153,7 @@ const treeConfig: EnhancedTableProps['tree'] = reactive({
   childrenKey: 'children',
   treeNodeColumnIndex: 0,
   indent: 40,
-  expandTreeNodeOnClick: false,
+  expandTreeNodeOnClick: true,
   //Tdesgin 有BUG，这个配置不生效
   defaultExpandAll: true,
 });

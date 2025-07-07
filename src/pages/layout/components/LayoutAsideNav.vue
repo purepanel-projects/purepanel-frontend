@@ -9,7 +9,7 @@
     <!--遍历菜单树-->
     <template v-for="menu in menuTree" :key="menu.id">
       <!--类型为菜单组-->
-      <t-menu-group v-if="menu.type === '2'" :title="menu.title">
+      <t-menu-group v-if="menu.type == '2'" :title="menu.title">
         <template v-for="menuSub in menu.children" :key="menuSub.id">
           <t-menu-item v-if="menuSub.children.length === 0" :value="menuSub.id" :router-link="true"
                        :to="menuSub.path">

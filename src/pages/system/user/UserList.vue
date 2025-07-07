@@ -104,8 +104,8 @@ const columns: EnhancedTableProps['columns'] = [
     }
   },
   {
-    colKey: "createTime",
-    title: "创建时间",
+    colKey: "updateTime",
+    title: "更新时间",
   },
   {
     colKey: "link",
