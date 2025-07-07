@@ -34,6 +34,11 @@ const router = createRouter({
                     component: () => import('@/pages/system/permission/PermissionList.vue')
                 },
                 {
+                    path: '/group',
+                    name: 'group',
+                    component: () => import('@/pages/system/group/GroupList.vue')
+                },
+                {
                     path: '/notFound',
                     name: 'notFound',
                     component: () => import('@/pages/notFound/NotFoundPage.vue')
