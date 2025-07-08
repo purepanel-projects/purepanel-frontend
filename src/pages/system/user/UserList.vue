@@ -21,7 +21,7 @@
         </t-button>
       </div>
     </t-form>
-    <t-enhanced-table resizable
+    <t-enhanced-table table-layout="auto"
                       bordered
                       stripe
                       :pagination="pagination"
@@ -33,14 +33,15 @@
                       :columns="columns"/>
     <change-pwd-modal v-model:dialog-visible="childrenComponentVisible.changePwdModal"
                       :user-id="currentOperateUserInfo.id"/>
-    <user-form-drawer v-model:drawer-visible="childrenComponentVisible.formDrawer"/>
+    <user-form-drawer v-model:drawer-visible="childrenComponentVisible.formDrawer"
+                      :old-data="currentOperateUserInfo"/>
   </page-card>
 </template>
 <script setup lang="tsx">
 import PageCard from "@/components/PageCard.vue";
 import {onMounted, ref} from "vue";
 import {addOrUpdateUserApi, userPageListApi} from "@/api/userApi.ts";
-import type {SysUser} from "@/types/SysUser.ts";
+import type {UserPageListRes} from "@/types/SysUser.ts";
 import {type DropdownProps, type EnhancedTableProps, MessagePlugin, type TableProps} from "tdesign-vue-next";
 import ChangePwdModal from "@/components/ChangePwdModal.vue";
 import UserFormDrawer from "@/pages/system/user/components/UserFormDrawer.vue";
@@ -51,9 +52,9 @@ const childrenComponentVisible = ref({
   formDrawer: false,
 });
 //当前操作的用户信息
-const currentOperateUserInfo = ref<SysUser>({});
+const currentOperateUserInfo = ref<UserPageListRes>({});
 //表格数据定义
-const data = ref<SysUser[]>();
+const data = ref<UserPageListRes[]>();
 //查询表单数据
 const searchFormData = ref<{
   name?: string,
@@ -73,16 +74,12 @@ function resetSearchFormData() {
 //定义表格列
 const columns: EnhancedTableProps['columns'] = [
   {
-    colKey: "id",
-    title: "ID",
+    colKey: "account",
+    title: "账号",
   },
   {
     colKey: "name",
     title: "名称",
-  },
-  {
-    colKey: "account",
-    title: "账号",
   },
   {
     colKey: "phoneNumber",
@@ -91,6 +88,14 @@ const columns: EnhancedTableProps['columns'] = [
   {
     colKey: "email",
     title: "邮箱",
+  },
+  {
+    colKey: "groupNames",
+    title: "群组",
+  },
+  {
+    colKey: "roleNames",
+    title: "角色",
   },
   {
     colKey: "status",
@@ -143,6 +148,7 @@ const columns: EnhancedTableProps['columns'] = [
       return (<t-space>
         <t-link theme="primary" onClick={() => {
           childrenComponentVisible.value.formDrawer = true
+          currentOperateUserInfo.value = row;
         }}>编辑
         </t-link>
         <t-dropdown hideAfterItemClick={false} options={moreOptions}>

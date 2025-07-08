@@ -1,7 +1,7 @@
 import request from "@/api/request.ts";
 import type Res from "@/types/Res.ts";
 import type {PageReq, PageRes} from "@/types/Page.ts";
-import type {SysUser} from "@/types/SysUser.ts";
+import type {SysUser, UserPageListRes} from "@/types/SysUser.ts";
 
 //用户列表分页查询
 export interface UserPageListReq extends PageReq {
@@ -9,7 +9,7 @@ export interface UserPageListReq extends PageReq {
     account?: string,
 }
 
-export function userPageListApi(req: UserPageListReq): Promise<Res<PageRes<SysUser>>> {
+export function userPageListApi(req: UserPageListReq): Promise<Res<PageRes<UserPageListRes>>> {
     return request.post('/sysUser/pageList', req)
 }
 

@@ -26,10 +26,16 @@
         新增
       </t-button>
     </t-form>
+    <t-enhanced-table table-layout="auto"
+                      bordered stripe
+                      ref="tableRef"
+                      size="small"
+                      :data="data"
+                      row-key="id"
+                      :columns="columns"
+                      :tree="treeConfig"/>
     <permission-form-modal :old-data="oldData" v-model:dialog-visible="dialogVisible" :all-tree-list="data"
                            @submit-success="getPermissionTreeList"/>
-    <t-enhanced-table resizable bordered stripe ref="tableRef" size="small" :data="data" row-key="id" :columns="columns"
-                      :tree="treeConfig"/>
   </div>
 </template>
 

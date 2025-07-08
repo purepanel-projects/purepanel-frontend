@@ -18,7 +18,13 @@
         </t-button>
       </div>
     </t-form>
-    <t-enhanced-table resizable bordered stripe ref="tableRef" size="small" :data="data" row-key="id" :columns="columns"
+    <t-enhanced-table table-layout="auto"
+                      bordered stripe
+                      ref="tableRef"
+                      size="small"
+                      :data="data"
+                      row-key="id"
+                      :columns="columns"
                       :tree="treeConfig"/>
   </div>
 </template>
@@ -57,7 +63,7 @@ const columns: EnhancedTableProps['columns'] = [
   },
   {
     colKey: "orderNo",
-    title: "排序号",
+    title: "序号",
   },
   {
     colKey: "createTime",

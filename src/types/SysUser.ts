@@ -10,6 +10,19 @@ export interface SysUser {
     phoneNumber?: string;
 }
 
+export interface UserPageListRes extends SysUser {
+    groupList?: {
+        name: string;
+        groupId: string;
+    }[];
+    roleList?: {
+        name: string;
+        roleId: string;
+    }[];
+    groupNames?:string;
+    roleNames?:string;
+}
+
 export interface AddSysUserFormData extends SysUser {
     confirmPwd?: string;
 }
