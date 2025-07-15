@@ -16,7 +16,7 @@
         </t-button>
       </div>
       <div class="flex flex-row gap-4 ml-auto">
-        <t-button @click="childrenComponentVisible.formDrawer=true">
+        <t-button @click="handleAdd">
           新增
         </t-button>
       </div>
@@ -71,8 +71,14 @@ function resetSearchFormData() {
   getUserPageList()
 }
 
+//处理新增按钮点击事件
+function handleAdd() {
+  childrenComponentVisible.value.formDrawer = true
+  currentOperateUserInfo.value = {}
+}
+
 //定义表格列
-const columns: EnhancedTableProps['columns'] = [
+const columns: EnhancedTableProps<UserPageListRes>['columns'] = [
   {
     colKey: "account",
     title: "账号",
@@ -101,7 +107,7 @@ const columns: EnhancedTableProps['columns'] = [
     colKey: "status",
     title: "状态",
     cell: (h, {row}) => {
-      if (row.status === 1) {
+      if (row.status) {
         return <t-tag theme="success">正常</t-tag>
       } else {
         return <t-tag theme="danger">禁用</t-tag>
@@ -129,8 +135,8 @@ const columns: EnhancedTableProps['columns'] = [
           content: () => {
             return (
                 <t-popconfirm content={"确定更改状态吗？"}
-                              onConfirm={() => changeUserStatus(row.status, row.id)}>
-                  <div>{row.status === 1 ? '禁用' : '启用'}</div>
+                              onConfirm={() => changeUserStatus(row.status!, row.id!)}>
+                  <div>{row.status ? '禁用' : '启用'}</div>
                 </t-popconfirm>
             )
           }
@@ -170,29 +176,29 @@ const pagination = ref<TableProps['pagination']>({
 });
 //分页变化事件
 const onPageChange: TableProps['onPageChange'] = (pageInfo) => {
-  pagination.value!!.current = pageInfo.current;
-  pagination.value!!.pageSize = pageInfo.pageSize;
+  pagination.value!.current = pageInfo.current;
+  pagination.value!.pageSize = pageInfo.pageSize;
   getUserPageList();
 };
 
 //获取表格数据
 function getUserPageList() {
   userPageListApi({
-    current: pagination.value?.current!!,
-    size: pagination.value?.pageSize!!,
+    current: pagination.value?.current!,
+    size: pagination.value?.pageSize!,
     name: searchFormData.value.name,
     account: searchFormData.value.account,
   }).then(res => {
     data.value = res.payload.records
-    pagination.value!!.total = res.payload.total
+    pagination.value!.total = res.payload.total
   })
 }
 
 //修改用户状态
-function changeUserStatus(currentStatus: number, id: string) {
+function changeUserStatus(currentStatus: boolean, id: string) {
   addOrUpdateUserApi({
     id: id,
-    status: currentStatus === 1 ? 0 : 1,
+    status: !currentStatus,
   }).then(() => {
     MessagePlugin.success('修改成功');
     getUserPageList()

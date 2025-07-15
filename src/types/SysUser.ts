@@ -5,7 +5,7 @@ export interface SysUser {
     pwd?: string;
     salt?: string;
     avatar?: string;
-    status?: number;
+    status?: boolean;
     email?: string;
     phoneNumber?: string;
 }

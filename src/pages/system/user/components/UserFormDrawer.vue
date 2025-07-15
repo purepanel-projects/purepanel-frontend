@@ -18,8 +18,10 @@
       </t-form-item>
       <t-form-item label="头像" name="email">
         <t-upload
+            v-model="avatarFile"
             accept="image/*"
             theme="image"
+            :request-method="uploadAvatar"
         />
       </t-form-item>
       <t-form-item label="群组" name="group">
@@ -48,7 +50,11 @@
 <script setup lang="ts">
 import type {AddSysUserFormData, UserPageListRes} from "@/types/SysUser.ts";
 import type {FormProps} from "tdesign-vue-next";
-import {onMounted, reactive, watch} from "vue";
+import {onMounted, reactive, ref, watch} from "vue";
+import {uploadFileApi} from "@/api/commonApi.ts";
+import type {UploadFile} from "tdesign-vue-next/es/upload/type";
+
+const baseURL = import.meta.env.VITE_API_BASE
 
 onMounted(() => {
   //获取角色列表
@@ -63,6 +69,11 @@ watch(() => props.oldData, () => {
   if (props.oldData) {
     // 编辑模式
     formData = reactive({...props.oldData})
+    avatarFile = ref([
+      {
+        url: `${baseURL}/files/${formData.avatar}`
+      },
+    ])
   } else {
     // 新增模式
     formData = reactive<AddSysUserFormData>({});
@@ -85,7 +96,8 @@ const formRules: FormProps['rules'] = {
 }
 //定义表单数据
 let formData = reactive<AddSysUserFormData>({});
-
+//定义头像文件
+let avatarFile = ref();
 //定义表单提交事件
 const handleSubmit: FormProps['onSubmit'] = ({validateResult}) => {
 
@@ -98,5 +110,15 @@ function closeDrawer() {
 
 function getRoleList() {
 
+}
+
+async function uploadAvatar(file: UploadFile) {
+  const res = await uploadFileApi(file.raw!);
+  return {
+    status: 'success',
+    response: {
+      url: `${baseURL}/files/${res.payload}`
+    }
+  }
 }
 </script>
