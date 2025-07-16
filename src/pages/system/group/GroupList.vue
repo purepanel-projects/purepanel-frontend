@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[var(--td-bg-color-container)] rounded-md h-full flex flex-col gap-4 p-6">
+  <div class="h-full flex flex-col gap-4 p-6">
     <t-form @reset="resetSearchFormData" @submit="getGroupTreeList" layout="inline">
       <t-form-item label-width="0">
         <t-input clearable v-model="searchFormData.name" placeholder="按名称模糊查询"/>
@@ -42,7 +42,7 @@ onMounted(() => {
 })
 
 onUpdated(() => {
-  tableRef.value?.expandAll()
+  tableRef.value!.expandAll()
 })
 
 //查询表单数据
@@ -125,7 +125,7 @@ const treeConfig: EnhancedTableProps['tree'] = reactive({
   childrenKey: 'children',
   treeNodeColumnIndex: 0,
   indent: 40,
-  expandTreeNodeOnClick: true,
+  expandTreeNodeOnClick: false,
   //Tdesgin 有BUG，这个配置不生效
   defaultExpandAll: true,
 });

@@ -184,8 +184,8 @@ const onPageChange: TableProps['onPageChange'] = (pageInfo) => {
 //获取表格数据
 function getUserPageList() {
   userPageListApi({
-    current: pagination.value?.current!,
-    size: pagination.value?.pageSize!,
+    current: pagination.value!.current!,
+    size: pagination.value!.pageSize!,
     name: searchFormData.value.name,
     account: searchFormData.value.account,
   }).then(res => {

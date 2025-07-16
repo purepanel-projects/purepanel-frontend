@@ -101,9 +101,9 @@ const handleSubmit: FormProps['onSubmit'] = ({validateResult}) => {
     return;
   }
   const req: AccountLoginReq = {
-    account: formData?.account,
-    pwd: formData?.pwd,
-    captcha: formData?.captcha,
+    account: formData!.account,
+    pwd: formData!.pwd,
+    captcha: formData!.captcha,
     captchaKey: captchaRes.value.captchaKey
   }
   loginApi(req).then(res => {

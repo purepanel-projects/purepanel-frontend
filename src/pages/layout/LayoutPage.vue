@@ -7,7 +7,7 @@
       <t-header class="border-0">
         <layout-header/>
       </t-header>
-      <t-content class="overflow-auto p-3">
+      <t-content class="overflow-auto bg-[var(--td-bg-color-container)]">
         <layout-content/>
       </t-content>
     </t-layout>

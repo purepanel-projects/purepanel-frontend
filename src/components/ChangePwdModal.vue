@@ -42,7 +42,7 @@ const emit = defineEmits<{
 const boxRef = ref<HTMLDivElement>();
 onUpdated(() => {
   if (props.needOldPwd) {
-    boxRef.value?.classList.add('!h-44')
+    boxRef.value!.classList.add('!h-44')
   }
 })
 //定义表单校验规则

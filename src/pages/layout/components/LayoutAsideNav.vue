@@ -1,11 +1,11 @@
 <template>
-  <t-menu :value="activeMenu"
+  <t-menu class="border-r border-r-[var(--td-gray-color-3)]" :value="activeMenu"
           :collapsed="useAsideCollapsedStore().asideCollapsed"
           @change="handleMenuChange" :expandMutex="true">
-    <template #logo>
-      <img v-if="useAsideCollapsedStore().asideCollapsed" class="w-8" src="@/assets/logo-bg.png" alt="logo">
-      <img v-else class="w-42" src="@/assets/logo-h.png" alt="logo">
-    </template>
+    <div class="w-full flex items-center justify-center mb-4">
+      <img v-if="useAsideCollapsedStore().asideCollapsed" class="w-10" src="@/assets/logo-bg.png" alt="logo">
+      <img v-else class="w-56" src="@/assets/logo-h.png" alt="logo">
+    </div>
     <!--遍历菜单树-->
     <template v-for="menu in menuTree" :key="menu.id">
       <!--类型为菜单组-->
