@@ -1,7 +1,7 @@
 import request from "@/api/request.ts";
 import type Res from "@/types/Res.ts";
 import type {PageReq, PageRes} from "@/types/Page.ts";
-import type {SysUser, UserPageListRes} from "@/types/SysUser.ts";
+import type {UserPageListRes, UserSaveReq} from "@/types/SysUser.ts";
 
 //用户列表分页查询
 export interface UserPageListReq extends PageReq {
@@ -14,8 +14,8 @@ export function userPageListApi(req: UserPageListReq): Promise<Res<PageRes<UserP
 }
 
 //新增或更新用户
-export function addOrUpdateUserApi(sysUser: SysUser): Promise<Res<any>> {
-    return request.post('/sysUser/addOrUpdate', sysUser)
+export function saveUserApi(req: UserSaveReq): Promise<Res<any>> {
+    return request.post('/sysUser/save', req)
 }
 
 //修改密码

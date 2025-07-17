@@ -1,5 +1,5 @@
 <template>
-  <t-menu class="border-r border-r-[var(--td-gray-color-3)]" :value="activeMenu"
+  <t-menu class="border-r border-r-[var(--td-border-level-1-color)]" :value="activeMenu"
           :collapsed="useAsideCollapsedStore().asideCollapsed"
           @change="handleMenuChange" :expandMutex="true">
     <div class="w-full flex items-center justify-center mb-4">

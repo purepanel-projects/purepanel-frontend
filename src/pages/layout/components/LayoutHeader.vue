@@ -1,5 +1,5 @@
 <template>
-  <t-head-menu class="border-b border-b-[var(--td-gray-color-3)]">
+  <t-head-menu class="border-b border-b-[var(--td-border-level-1-color)]">
     <t-button variant="text" @click="()=>useAsideCollapsedStore().reverse()">
       <template #icon>
         <t-icon v-if="useAsideCollapsedStore().asideCollapsed" name="menu-fold"/>

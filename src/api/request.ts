@@ -29,6 +29,8 @@ const STATUS_CODE = {
     UNAUTHORIZED: 401,
     //无操作权限
     NO_PERMISSIONS: 403,
+    //资源未找到
+    NOT_FOUND: 404,
     //服务器错误
     FAIL: 500,
 }
@@ -37,10 +39,12 @@ request.interceptors.response.use(response => {
     //只取业务数据部分
     const res: Res<any> = response.data
     if (res.status === STATUS_CODE.UNAUTHORIZED) {
+        // 401 未授权，需要重新登录
         MessagePlugin.error(res.msg)
         localStorage.removeItem("loginInfo")
         router.replace('/login')
-    } else if (res.status === STATUS_CODE.FAIL) {
+    } else if (res.status === STATUS_CODE.FAIL
+        || res.status === STATUS_CODE.NOT_FOUND) {
         MessagePlugin.error(res.msg)
         throw new Error(res.msg)
     }

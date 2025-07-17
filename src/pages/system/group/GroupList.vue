@@ -31,7 +31,7 @@
 
 <script setup lang="tsx">
 import {onMounted, onUpdated, reactive, ref} from "vue";
-import {allTreeListApi} from "@/api/groupApi.ts";
+import {groupAllTreeListApi} from "@/api/groupApi.ts";
 import type {DropdownProps, EnhancedTableInstanceFunctions, EnhancedTableProps} from "tdesign-vue-next";
 import type {SysGroupTreeListRes} from "@/types/SysGroup.ts";
 
@@ -116,7 +116,7 @@ const data = ref<SysGroupTreeListRes[]>();
 
 //获取表格数据
 async function getGroupTreeList() {
-  const res = await allTreeListApi(searchFormData.value)
+  const res = await groupAllTreeListApi(searchFormData.value)
   data.value = res.payload;
 }
 

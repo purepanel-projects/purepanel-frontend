@@ -11,18 +11,14 @@ export interface SysUser {
 }
 
 export interface UserPageListRes extends SysUser {
-    groupList?: {
-        name: string;
-        groupId: string;
-    }[];
-    roleList?: {
-        name: string;
-        roleId: string;
-    }[];
-    groupNames?:string;
-    roleNames?:string;
+    groupIdList?: string[];
+    roleIdList?: string[];
+    groupNames?: string;
+    roleNames?: string;
 }
 
-export interface AddSysUserFormData extends SysUser {
+export interface UserSaveReq extends SysUser {
+    groupIdList?: string[];
+    roleIdList?: string[];
     confirmPwd?: string;
 }

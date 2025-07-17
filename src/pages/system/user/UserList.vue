@@ -1,5 +1,5 @@
 <template>
-  <page-card>
+  <page-box>
     <t-form @reset="resetSearchFormData" @submit="getUserPageList" layout="inline">
       <t-form-item label-width="0">
         <t-input clearable v-model="searchFormData.name" placeholder="按名称模糊查询"/>
@@ -34,13 +34,14 @@
     <change-pwd-modal v-model:dialog-visible="childrenComponentVisible.changePwdModal"
                       :user-id="currentOperateUserInfo.id"/>
     <user-form-drawer v-model:drawer-visible="childrenComponentVisible.formDrawer"
-                      :old-data="currentOperateUserInfo"/>
-  </page-card>
+                      :old-data="currentOperateUserInfo"
+                      @submit-success="getUserPageList"/>
+  </page-box>
 </template>
 <script setup lang="tsx">
-import PageCard from "@/components/PageCard.vue";
+import PageBox from "@/components/PageBox.vue";
 import {onMounted, ref} from "vue";
-import {addOrUpdateUserApi, userPageListApi} from "@/api/userApi.ts";
+import {saveUserApi, userPageListApi} from "@/api/userApi.ts";
 import type {UserPageListRes} from "@/types/SysUser.ts";
 import {type DropdownProps, type EnhancedTableProps, MessagePlugin, type TableProps} from "tdesign-vue-next";
 import ChangePwdModal from "@/components/ChangePwdModal.vue";
@@ -196,7 +197,7 @@ function getUserPageList() {
 
 //修改用户状态
 function changeUserStatus(currentStatus: boolean, id: string) {
-  addOrUpdateUserApi({
+  saveUserApi({
     id: id,
     status: !currentStatus,
   }).then(() => {
