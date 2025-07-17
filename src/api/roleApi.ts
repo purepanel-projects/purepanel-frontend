@@ -8,6 +8,6 @@ export interface RolePageListReq extends PageReq {
     name?: string,
 }
 
-export function rolePageListApi(req: RolePageListReq): Promise<Res<PageRes<SysRole>>> {
+export function rolePageListApi(req?: RolePageListReq): Promise<Res<PageRes<SysRole>>> {
     return request.post('/sysRole/pageList', req)
 }
