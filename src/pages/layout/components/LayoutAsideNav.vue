@@ -81,7 +81,6 @@ import {computed, onMounted, ref} from "vue";
 import {getLoginUserPermissionApi} from "@/api/permissionApi.ts";
 import type {SysPermissionTreeListRes} from "@/types/SysPermission.ts";
 import {useBtnPermissionStore} from "@/stores/btnPermissionStore.ts";
-import {usePageTitleStore} from "@/stores/pageTitleStore.ts";
 import {useRoute} from "vue-router";
 
 const route = useRoute()
@@ -94,11 +93,7 @@ onMounted(() => {
 
 function getLoginUserPermission() {
   getLoginUserPermissionApi().then((res) => {
-    const menuTreeRes = res.payload.menuTree;
-    menuTree.value = menuTreeRes;
-    if (menuTreeRes.length > 0) {
-      usePageTitleStore().update(menuTreeRes[0].title)
-    }
+    menuTree.value = res.payload.menuTree;
     useBtnPermissionStore().update(res.payload.btnList)
   })
 }

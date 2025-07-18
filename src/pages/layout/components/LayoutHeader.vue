@@ -1,14 +1,10 @@
 <template>
   <t-head-menu class="border-b border-b-[var(--td-border-level-1-color)]">
-    <t-button variant="text" @click="()=>useAsideCollapsedStore().reverse()">
+    <t-button variant="text" @click="useAsideCollapsedStore().reverse()">
       <template #icon>
-        <t-icon v-if="useAsideCollapsedStore().asideCollapsed" name="menu-fold"/>
-        <t-icon v-else name="menu-unfold"/>
+        <t-icon :name="useAsideCollapsedStore().asideCollapsed?'menu-fold':'menu-unfold'" size="20"/>
       </template>
     </t-button>
-    <span class="font-bold text-lg m-1">
-      {{ usePageTitleStore().pageTitle }}
-    </span>
     <t-input class="!w-56 !ml-auto mr-4" readonly default-value="搜索菜单">
       <template #suffixIcon>
         <t-icon name="search"/>
@@ -40,7 +36,6 @@
 </template>
 <script setup lang="tsx">
 import {useAsideCollapsedStore} from '@/stores/asideCollapsedStore.ts'
-import {usePageTitleStore} from "@/stores/pageTitleStore.ts";
 import {onMounted, onUnmounted, ref} from "vue";
 import PersonCenterModal from "@/components/PersonCenterModal.vue";
 import type {DropdownProps} from "tdesign-vue-next";
@@ -86,14 +81,14 @@ const avatarDropdownOptions: DropdownProps['options'] = [
       changePwdDialogVisible.value = true
     }
   },
-  // {
-  //   content: '设置',
-  //   prefixIcon: () => <SettingIcon/>,
-  //   onClick: () => {
-  //
-  //   },
-  //   divider: true,
-  // },
+  {
+    content: '设置',
+    prefixIcon: () => <SettingIcon/>,
+    onClick: () => {
+
+    },
+    divider: true,
+  },
   {
     content: '退出登录',
     prefixIcon: () => <LogoutIcon/>,
