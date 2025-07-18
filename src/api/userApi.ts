@@ -18,6 +18,11 @@ export function saveUserApi(req: UserSaveReq): Promise<Res<any>> {
     return request.post('/sysUser/save', req)
 }
 
+//删除用户
+export function deleteUserApi(id: string): Promise<Res<any>> {
+    return request.delete(`/sysUser/delete/${id}`)
+}
+
 //修改密码
 export interface ChangePwdReq {
     oldPwd?: string,

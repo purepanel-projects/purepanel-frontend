@@ -17,7 +17,7 @@
                       :columns="columns"/>
   </page-box>
 </template>
-<script setup lang="ts">
+<script setup lang="tsx">
 import PageBox from "@/components/PageBox.vue";
 import {onMounted, ref} from "vue";
 import {rolePageListApi} from "@/api/roleApi.ts";
@@ -55,6 +55,28 @@ const columns: EnhancedTableProps<SysRole>['columns'] = [
   {
     colKey: "updateTime",
     title: "更新时间",
+  }, {
+    colKey: "link",
+    title: "操作",
+    align: "center",
+    cell: (h, {row}) => {
+      return (<t-space>
+        <t-link theme="primary" onClick={() => {
+
+        }}>授权
+        </t-link>
+        <t-link theme="primary" onClick={() => {
+
+        }}>编辑
+        </t-link>
+        <t-dropdown hideAfterItemClick={false} options={undefined}>
+          <t-link theme="primary">
+            更多
+            <t-icon name="chevron-down-s"/>
+          </t-link>
+        </t-dropdown>
+      </t-space>)
+    }
   }
 ]
 

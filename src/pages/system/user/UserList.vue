@@ -41,7 +41,7 @@
 <script setup lang="tsx">
 import PageBox from "@/components/PageBox.vue";
 import {onMounted, ref} from "vue";
-import {saveUserApi, userPageListApi} from "@/api/userApi.ts";
+import {deleteUserApi, saveUserApi, userPageListApi} from "@/api/userApi.ts";
 import type {UserPageListRes} from "@/types/SysUser.ts";
 import {type DropdownProps, type EnhancedTableProps, MessagePlugin, type TableProps} from "tdesign-vue-next";
 import ChangePwdModal from "@/components/ChangePwdModal.vue";
@@ -145,7 +145,8 @@ const columns: EnhancedTableProps<UserPageListRes>['columns'] = [
         {
           content: () => {
             return (
-                <t-popconfirm content={"确定删除吗？"}>
+                <t-popconfirm content={"确定删除吗？"}
+                              onConfirm={() => deleteUser(row.id!)}>
                   <div class="text-[var(--td-error-color)]">删除</div>
                 </t-popconfirm>
             )
@@ -202,6 +203,13 @@ function changeUserStatus(currentStatus: boolean, id: string) {
     status: !currentStatus,
   }).then(() => {
     MessagePlugin.success('修改成功');
+    getUserPageList()
+  })
+}
+//删除用户
+function deleteUser(id: string) {
+  deleteUserApi(id).then(() => {
+    MessagePlugin.success('删除成功');
     getUserPageList()
   })
 }
