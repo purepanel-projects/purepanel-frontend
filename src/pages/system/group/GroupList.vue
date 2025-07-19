@@ -13,7 +13,7 @@
         </t-button>
       </div>
       <div class="flex flex-row gap-4 ml-auto">
-        <t-button>
+        <t-button @click="handleAdd">
           新增
         </t-button>
       </div>
@@ -26,16 +26,28 @@
                       row-key="id"
                       :columns="columns"
                       :tree="treeConfig"/>
+    <group-form-modal v-model:dialog-visible="formModalVisible"
+                      :all-tree-list="data"
+                      :old-data="oldData"
+                      @submit-success="getGroupTreeList"/>
   </div>
 </template>
 
 <script setup lang="tsx">
 import {onMounted, onUpdated, reactive, ref} from "vue";
-import {groupAllTreeListApi} from "@/api/groupApi.ts";
-import type {DropdownProps, EnhancedTableInstanceFunctions, EnhancedTableProps} from "tdesign-vue-next";
-import type {SysGroupTreeListRes} from "@/types/SysGroup.ts";
+import {groupAllTreeListApi, groupDeleteApi} from "@/api/groupApi.ts";
+import {
+  type DropdownProps,
+  type EnhancedTableInstanceFunctions,
+  type EnhancedTableProps,
+  MessagePlugin
+} from "tdesign-vue-next";
+import type {SysGroup, SysGroupTreeListRes} from "@/types/SysGroup.ts";
+import GroupFormModal from "@/pages/system/group/components/GroupFormModal.vue";
 
 const tableRef = ref<EnhancedTableInstanceFunctions>();
+const formModalVisible = ref(false)
+const oldData = ref<SysGroup | null>();
 
 onMounted(() => {
   getGroupTreeList()
@@ -56,7 +68,7 @@ function resetSearchFormData() {
 }
 
 //定义表格列
-const columns: EnhancedTableProps['columns'] = [
+const columns: EnhancedTableProps<SysGroupTreeListRes>['columns'] = [
   {
     colKey: "name",
     title: "名称",
@@ -82,12 +94,17 @@ const columns: EnhancedTableProps['columns'] = [
         {
           content: '添加下级',
           onClick: () => {
-
+            oldData.value = {
+              pid: row.id,
+              orderNo: 0,
+            }
+            formModalVisible.value = true;
           }
-        }, {
+        },
+        {
           content: () => {
             return (
-                <t-popconfirm content={"如存在下级，也将一并删除。确定删除吗？"}>
+                <t-popconfirm content={"如存在下级，也将一并删除。确定删除吗？"} onConfirm={() => handleDelete(row.id!)}>
                   <div class="text-[var(--td-error-color)]">删除</div>
                 </t-popconfirm>
             )
@@ -97,7 +114,8 @@ const columns: EnhancedTableProps['columns'] = [
       return (
           <t-space>
             <t-link theme="primary" onClick={() => {
-
+              oldData.value = {...row}
+              formModalVisible.value = true
             }}>编辑
             </t-link>
             <t-dropdown hideAfterItemClick={false} options={moreOptions}>
@@ -130,4 +148,17 @@ const treeConfig: EnhancedTableProps['tree'] = reactive({
   defaultExpandAll: true,
 });
 
+//处理新增点击
+function handleAdd() {
+  formModalVisible.value = true
+  oldData.value = null
+}
+
+//处理删除
+function handleDelete(id: string) {
+  groupDeleteApi(id).then(() => {
+    MessagePlugin.success('删除成功');
+    getGroupTreeList()
+  })
+}
 </script>

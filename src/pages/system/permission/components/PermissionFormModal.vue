@@ -48,7 +48,7 @@
             </template>
           </t-select>
         </t-form-item>
-        <t-form-item label="排序" name="path">
+        <t-form-item label="排序" name="orderNo">
           <t-input-number v-model="formData.orderNo"/>
           <t-tooltip content="数字越小，排序越靠前">
             <t-icon class="ml-2" name="help-circle"/>
@@ -90,7 +90,7 @@ const props = defineProps<{
 }>()
 
 watch(() => props.oldData, () => {
-  if (props.oldData) {
+  if (props.oldData?.id) {
     // 编辑模式
     formData = reactive({...props.oldData})
   } else {
@@ -102,6 +102,7 @@ watch(() => props.oldData, () => {
     });
   }
 })
+
 //定义事件
 const emit = defineEmits<{
   (e: 'update:dialogVisible', value: Boolean): void;

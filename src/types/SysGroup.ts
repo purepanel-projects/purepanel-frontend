@@ -4,7 +4,7 @@ export interface SysGroupTreeListRes extends SysGroup {
 
 export interface SysGroup {
     id?: string;
-    pId: string;
+    pid?: string;
     name?: string;
-    orderNo: number;
+    orderNo?: number;
 }
