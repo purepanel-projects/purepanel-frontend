@@ -4,6 +4,19 @@
       <t-form-item label-width="0">
         <t-input clearable v-model="searchFormData.name" placeholder="按名称模糊查询"/>
       </t-form-item>
+      <div class="flex flex-row gap-4">
+        <t-button type="submit">
+          查询
+        </t-button>
+        <t-button variant="outline" type="reset">
+          重置
+        </t-button>
+      </div>
+      <div class="flex flex-row gap-4 ml-auto">
+        <t-button @click="">
+          新增
+        </t-button>
+      </div>
     </t-form>
     <t-enhanced-table table-layout="auto"
                       bordered
