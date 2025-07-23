@@ -16,3 +16,7 @@ export function rolePageListApi(req?: RolePageListReq): Promise<Res<PageRes<SysR
 export function roleSaveApi(req: SysRole): Promise<Res<any>> {
     return request.post('/sysRole/save', req)
 }
+//删除
+export function roleDeleteApi(id: string): Promise<Res<any>> {
+    return request.delete(`/sysRole/delete/${id}`)
+}

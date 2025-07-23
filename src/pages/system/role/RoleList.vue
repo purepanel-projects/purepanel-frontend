@@ -46,14 +46,14 @@
 <script setup lang="tsx">
 import PageBox from "@/components/PageBox.vue";
 import {onMounted, reactive, ref} from "vue";
-import {rolePageListApi, roleSaveApi} from "@/api/roleApi.ts";
+import {roleDeleteApi, rolePageListApi, roleSaveApi} from "@/api/roleApi.ts";
 import type {SysRole} from "@/types/SysRole.ts";
 import {
   type DialogProps,
   type EnhancedTableProps,
   type FormProps,
   MessagePlugin,
-  type TableProps, type TdFormProps
+  type TableProps,
 } from "tdesign-vue-next";
 
 onMounted(() => {
@@ -103,12 +103,9 @@ const columns: EnhancedTableProps<SysRole>['columns'] = [
           formVisible.value = true
         }}>编辑
         </t-link>
-        <t-dropdown hideAfterItemClick={false} options={undefined}>
-          <t-link theme="primary">
-            更多
-            <t-icon name="chevron-down-s"/>
-          </t-link>
-        </t-dropdown>
+        <t-popconfirm content={"确定删除吗？"} onConfirm={() => handleDelete(row.id!)}>
+          <t-link theme="danger">删除</t-link>
+        </t-popconfirm>
       </t-space>)
     }
   }
@@ -176,4 +173,11 @@ const handleFormSubmit: FormProps['onSubmit'] = ({validateResult}) => {
 const closeFormDialog: DialogProps['onClose'] = () => {
   formVisible.value = false
 };
+
+function handleDelete(id: string) {
+  roleDeleteApi(id).then(() => {
+    MessagePlugin.success('删除成功')
+    getRolePageList()
+  })
+}
 </script>
