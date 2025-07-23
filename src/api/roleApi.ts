@@ -11,3 +11,8 @@ export interface RolePageListReq extends PageReq {
 export function rolePageListApi(req?: RolePageListReq): Promise<Res<PageRes<SysRole>>> {
     return request.post('/sysRole/pageList', req)
 }
+
+//保存
+export function roleSaveApi(req: SysRole): Promise<Res<any>> {
+    return request.post('/sysRole/save', req)
+}

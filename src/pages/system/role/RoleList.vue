@@ -13,7 +13,7 @@
         </t-button>
       </div>
       <div class="flex flex-row gap-4 ml-auto">
-        <t-button @click="">
+        <t-button @click="handleAdd">
           新增
         </t-button>
       </div>
@@ -28,14 +28,33 @@
                       :data="data"
                       row-key="id"
                       :columns="columns"/>
+    <t-form :rules="formRules" :data="formData" @submit="handleFormSubmit">
+      <t-dialog destroy-on-close :visible="formVisible" :close-btn="true" :on-close="closeFormDialog">
+        <template #header>填写角色信息</template>
+        <template #body>
+          <t-form-item label="名称" name="name">
+            <t-input v-model="formData.name" placeholder="请输入名称"/>
+          </t-form-item>
+        </template>
+        <template #footer>
+          <t-button theme="primary" type="submit">保存</t-button>
+        </template>
+      </t-dialog>
+    </t-form>
   </page-box>
 </template>
 <script setup lang="tsx">
 import PageBox from "@/components/PageBox.vue";
-import {onMounted, ref} from "vue";
-import {rolePageListApi} from "@/api/roleApi.ts";
+import {onMounted, reactive, ref} from "vue";
+import {rolePageListApi, roleSaveApi} from "@/api/roleApi.ts";
 import type {SysRole} from "@/types/SysRole.ts";
-import type {EnhancedTableProps, TableProps} from "tdesign-vue-next";
+import {
+  type DialogProps,
+  type EnhancedTableProps,
+  type FormProps,
+  MessagePlugin,
+  type TableProps, type TdFormProps
+} from "tdesign-vue-next";
 
 onMounted(() => {
   getRolePageList()
@@ -79,7 +98,9 @@ const columns: EnhancedTableProps<SysRole>['columns'] = [
         }}>授权
         </t-link>
         <t-link theme="primary" onClick={() => {
-
+          formData.id = row.id
+          formData.name = row.name
+          formVisible.value = true
         }}>编辑
         </t-link>
         <t-dropdown hideAfterItemClick={false} options={undefined}>
@@ -119,4 +140,40 @@ function getRolePageList() {
     pagination.value!.total = res.payload.total
   })
 }
+
+//新增按钮点击事件
+function handleAdd() {
+  formData.id = undefined
+  formData.name = undefined
+  formVisible.value = true
+}
+
+//新增/编辑表单显隐
+const formVisible = ref(false)
+//定义表单数据
+const formData = reactive<SysRole>({});
+//定义表单校验规则
+const formRules: FormProps['rules'] = {
+  name: [
+    {
+      required: true,
+      message: '请输入名称',
+    },
+  ],
+}
+//定义表单提交事件
+const handleFormSubmit: FormProps['onSubmit'] = ({validateResult}) => {
+  if (validateResult !== true) {
+    return;
+  }
+  roleSaveApi(formData).then(() => {
+    MessagePlugin.success('保存成功')
+    getRolePageList()
+    formVisible.value = false
+  })
+};
+//关闭弹窗
+const closeFormDialog: DialogProps['onClose'] = () => {
+  formVisible.value = false
+};
 </script>
