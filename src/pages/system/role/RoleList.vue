@@ -28,6 +28,7 @@
                       :data="data"
                       row-key="id"
                       :columns="columns"/>
+    <!--角色表单-->
     <t-form :rules="formRules" :data="formData" @submit="handleFormSubmit">
       <t-dialog destroy-on-close :visible="formVisible" :close-btn="true" :on-close="closeFormDialog">
         <template #header>填写角色信息</template>
@@ -41,6 +42,8 @@
         </template>
       </t-dialog>
     </t-form>
+    <!--授权抽屉-->
+    <role-authorize-drawer/>
   </page-box>
 </template>
 <script setup lang="tsx">
@@ -55,6 +58,7 @@ import {
   MessagePlugin,
   type TableProps,
 } from "tdesign-vue-next";
+import RoleAuthorizeDrawer from "@/pages/system/role/components/RoleAuthorizeDrawer.vue";
 
 onMounted(() => {
   getRolePageList()

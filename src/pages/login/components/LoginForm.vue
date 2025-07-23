@@ -91,8 +91,8 @@ function getCaptchaData() {
 
 //定义表单数据
 const formData: FormProps['data'] = reactive({
-  account: 'zhiyun',
-  pwd: '111111',
+  account: 'admin',
+  pwd: '123456',
   captcha: ''
 });
 //表单提交事件

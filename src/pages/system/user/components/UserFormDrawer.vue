@@ -47,7 +47,7 @@
       </t-form-item>
       <template #footer>
         <t-button type="submit">保存</t-button>
-        <t-button variant="outline">取消</t-button>
+        <t-button variant="outline" @click="closeDrawer">取消</t-button>
       </template>
     </t-drawer>
   </t-form>
@@ -96,7 +96,7 @@ watch(() => props.oldData, () => {
     if (formData.avatar) {
       avatarFile.value = [
         {
-          url: `${baseURL}/files/${formData.avatar}`
+          url: `${baseURL}/files${formData.avatar}`
         },
       ]
     } else {
@@ -129,7 +129,29 @@ const formRules: FormProps['rules'] = {
       required: true,
       message: '请输入账号',
     },
-  ]
+  ],
+  pwd: [
+    {
+      required: !props.oldData.id,
+      message: '请输入新密码',
+    },
+    {
+      min: 6,
+      message: '密码至少 6 位'
+    }
+  ],
+  confirmPwd: [
+    {
+      required: !props.oldData.id,
+      message: '请确认密码',
+    },
+    {
+      validator: (value) => {
+        return value === formData.pwd
+      },
+      message: '两次输入密码不一致',
+    }
+  ],
 }
 //定义表单数据
 let formData = reactive<UserSaveReq>({});
@@ -174,7 +196,7 @@ async function uploadAvatar(file: UploadFile) {
   return {
     status: 'success',
     response: {
-      url: `${baseURL}/files/${res.payload}`
+      url: `${baseURL}/files${res.payload}`
     }
   }
 }
