@@ -43,7 +43,7 @@
       </t-dialog>
     </t-form>
     <!--授权抽屉-->
-    <role-authorize-drawer/>
+    <role-authorize-drawer v-model:drawer-visible="authorizeDrawerVisible" :role-id="currentAuthorizeRoleId"/>
   </page-box>
 </template>
 <script setup lang="tsx">
@@ -98,7 +98,8 @@ const columns: EnhancedTableProps<SysRole>['columns'] = [
     cell: (h, {row}) => {
       return (<t-space>
         <t-link theme="primary" onClick={() => {
-
+          authorizeDrawerVisible.value = true
+          currentAuthorizeRoleId.value = row.id!
         }}>授权
         </t-link>
         <t-link theme="primary" onClick={() => {
@@ -178,10 +179,16 @@ const closeFormDialog: DialogProps['onClose'] = () => {
   formVisible.value = false
 };
 
+//删除按钮点击事件
 function handleDelete(id: string) {
   roleDeleteApi(id).then(() => {
     MessagePlugin.success('删除成功')
     getRolePageList()
   })
 }
+
+//授权抽屉显隐
+const authorizeDrawerVisible = ref(false)
+//当前操作授权的角色id
+const currentAuthorizeRoleId = ref<string>('')
 </script>

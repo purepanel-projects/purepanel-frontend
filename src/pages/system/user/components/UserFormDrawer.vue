@@ -79,6 +79,12 @@ const props = defineProps<{
   oldData: UserPageListRes;
 }>()
 
+//定义事件
+const emit = defineEmits<{
+  (e: 'update:drawerVisible', value: Boolean): void;
+  (e: 'submit-success'): void;
+}>()
+
 //监听props变化,如果有值,则是编辑模式,否则是新增模式
 watch(() => props.oldData, () => {
   if (props.oldData.id) {
@@ -110,11 +116,6 @@ watch(() => props.oldData, () => {
     avatarFile.value = []
   }
 })
-//定义事件
-const emit = defineEmits<{
-  (e: 'update:drawerVisible', value: Boolean): void;
-  (e: 'submit-success'): void;
-}>()
 
 //定义表单校验规则
 const formRules: FormProps['rules'] = {
