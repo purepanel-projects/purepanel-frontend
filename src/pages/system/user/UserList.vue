@@ -11,7 +11,7 @@
         <t-button type="submit">
           查询
         </t-button>
-        <t-button variant="outline" type="reset">
+        <t-button theme="default" type="reset">
           重置
         </t-button>
       </div>

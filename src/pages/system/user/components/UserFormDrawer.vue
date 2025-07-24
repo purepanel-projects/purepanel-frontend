@@ -47,7 +47,7 @@
       </t-form-item>
       <template #footer>
         <t-button type="submit">保存</t-button>
-        <t-button variant="outline" @click="closeDrawer">取消</t-button>
+        <t-button theme="default" @click="closeDrawer">取消</t-button>
       </template>
     </t-drawer>
   </t-form>

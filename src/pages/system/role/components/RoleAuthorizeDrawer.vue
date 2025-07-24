@@ -34,7 +34,7 @@ const checkedPermission = ref([]);
 //获取权限树
 function getPermissionTree() {
   getLoginUserPermissionApi().then(res => {
-    permissionTree.value = res.payload.menuTree
+    permissionTree.value = res.payload.permissionTree
   })
 }
 </script>

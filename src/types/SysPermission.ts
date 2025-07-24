@@ -1,4 +1,5 @@
 export interface GetLoginUserPermissionRes {
+    permissionTree: SysPermissionTreeListRes[];
     menuTree: SysPermissionTreeListRes[];
     btnList: SysPermission[];
 }
