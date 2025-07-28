@@ -24,28 +24,31 @@
         </t-button>
         <t-dropdown :options="avatarDropdownOptions">
           <t-button class="!p-2" variant="text">
-            <t-avatar class="" size="small" shape="circle"
-                      image="https://ui.shadcn.com/avatars/shadcn.jpg"/>
+            <t-avatar size="small" shape="round"
+                      :image="avatarUrl"/>
           </t-button>
         </t-dropdown>
       </div>
     </template>
   </t-head-menu>
   <person-center-modal v-model:dialog-visible="personCenterDialogVisible"/>
-  <change-pwd-modal v-model:dialog-visible="changePwdDialogVisible" :need-old-pwd="true"/>
+  <change-pwd-modal v-model:dialog-visible="changePwdDialogVisible"
+                    :need-old-pwd="true"/>
 </template>
 <script setup lang="tsx">
 import {useAsideCollapsedStore} from '@/stores/asideCollapsedStore.ts'
 import {onMounted, onUnmounted, ref} from "vue";
 import PersonCenterModal from "@/components/PersonCenterModal.vue";
-import type {DropdownProps} from "tdesign-vue-next";
+import {type DropdownProps, MessagePlugin} from "tdesign-vue-next";
 import {KeyIcon, UserIcon, SettingIcon, SunnyIcon, LogoutIcon, MoonIcon} from "tdesign-icons-vue-next";
 import {useRouter} from "vue-router";
 import ChangePwdModal from "@/components/ChangePwdModal.vue";
+import {getFileNetworkPath} from "@/utils/fileUtils.ts";
+import type {AccountLoginRes} from "@/api/loginApi.ts";
 
 const router = useRouter()
-
-
+const userInfo = JSON.parse(localStorage.getItem('loginInfo')!) as AccountLoginRes
+const avatarUrl = getFileNetworkPath(userInfo.sysUser.avatar!)
 const isFullScreen = ref(false)
 const personCenterDialogVisible = ref(false);
 const changePwdDialogVisible = ref(false);
@@ -93,6 +96,7 @@ const avatarDropdownOptions: DropdownProps['options'] = [
     content: '退出登录',
     prefixIcon: () => <LogoutIcon/>,
     onClick: () => {
+      MessagePlugin.success('已退出')
       localStorage.removeItem('loginInfo')
       router.replace('/login')
     }

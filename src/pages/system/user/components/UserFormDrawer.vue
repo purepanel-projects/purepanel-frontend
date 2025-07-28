@@ -62,9 +62,7 @@ import {rolePageListApi} from "@/api/roleApi.ts";
 import {groupAllTreeListApi} from "@/api/groupApi.ts";
 import type {SysGroupTreeListRes} from "@/types/SysGroup.ts";
 import {saveUserApi} from "@/api/userApi.ts";
-
-//获取环境变量
-const baseURL = import.meta.env.VITE_API_BASE
+import {getFileNetworkPath} from "@/utils/fileUtils.ts";
 
 onMounted(() => {
   //获取角色列表
@@ -102,7 +100,7 @@ watch(() => props.oldData, () => {
     if (formData.avatar) {
       avatarFile.value = [
         {
-          url: `${baseURL}/files${formData.avatar}`
+          url: getFileNetworkPath(formData.avatar)
         },
       ]
     } else {
@@ -197,7 +195,7 @@ async function uploadAvatar(file: UploadFile) {
   return {
     status: 'success',
     response: {
-      url: `${baseURL}/files${res.payload}`
+      url: getFileNetworkPath(res.payload)
     }
   }
 }

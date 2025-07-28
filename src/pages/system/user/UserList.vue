@@ -206,6 +206,7 @@ function changeUserStatus(currentStatus: boolean, id: string) {
     getUserPageList()
   })
 }
+
 //删除用户
 function deleteUser(id: string) {
   deleteUserApi(id).then(() => {

@@ -40,7 +40,7 @@
 </template>
 <script setup lang="ts">
 import {LockOnIcon, UserIcon, VerifiedIcon} from "tdesign-icons-vue-next";
-import type {FormProps} from "tdesign-vue-next";
+import {type FormProps, MessagePlugin} from "tdesign-vue-next";
 import {onMounted, reactive, ref} from "vue";
 import {useRouter} from "vue-router";
 import {type AccountLoginReq, getCaptchaApi, type GetCaptchaRes, loginApi} from '@/api/loginApi.ts'
@@ -107,6 +107,7 @@ const handleSubmit: FormProps['onSubmit'] = ({validateResult}) => {
     captchaKey: captchaRes.value.captchaKey
   }
   loginApi(req).then(res => {
+    MessagePlugin.success('登录成功')
     localStorage.setItem('loginInfo', JSON.stringify(res.payload))
     router.replace('/home')
   })
