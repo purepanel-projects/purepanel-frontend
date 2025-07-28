@@ -190,7 +190,7 @@ function getGroupTree() {
 
 //上传头像
 async function uploadAvatar(file: UploadFile) {
-  const res = await uploadFileApi(file.raw!);
+  const res = await uploadFileApi(file.raw!,'avatar');
   formData.avatar = res.payload;
   return {
     status: 'success',
