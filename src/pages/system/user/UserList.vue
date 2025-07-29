@@ -15,7 +15,7 @@
           重置
         </t-button>
       </div>
-      <div class="flex flex-row gap-4 ml-auto">
+      <div v-auth="'SYS_USER_ADD'" class="flex flex-row gap-4 ml-auto">
         <t-button @click="handleAdd">
           新增
         </t-button>
