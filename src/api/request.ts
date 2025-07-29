@@ -25,7 +25,7 @@ request.interceptors.request.use(config => {
 const STATUS_CODE = {
     //成功
     SUCCESS: 200,
-    //未授权（登录信息有误，需要重新登录）
+    //登录超时，需要重新登录
     UNAUTHORIZED: 401,
     //无操作权限
     NO_PERMISSIONS: 403,
@@ -40,9 +40,10 @@ request.interceptors.response.use(response => {
     const res: Res<any> = response.data
     if (res.status === STATUS_CODE.UNAUTHORIZED) {
         // 401 未授权，需要重新登录
+        router.replace('/login')
         MessagePlugin.error(res.msg)
         localStorage.removeItem("loginInfo")
-        router.replace('/login')
+        throw new Error(res.msg)
     } else if (res.status === STATUS_CODE.FAIL
         || res.status === STATUS_CODE.NOT_FOUND) {
         MessagePlugin.error(res.msg)

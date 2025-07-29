@@ -22,36 +22,58 @@
             <t-icon name="notification"/>
           </template>
         </t-button>
-        <t-dropdown :options="avatarDropdownOptions">
+        <t-dropdown :options="avatarDropdownOptions" max-column-width="300px">
           <t-button class="!p-2" variant="text">
-            <t-avatar size="small" shape="round"
+            <t-avatar v-if="avatarUrl" size="small" shape="round"
                       :image="avatarUrl"/>
+            <t-avatar v-else size="small" shape="round">
+              {{ nameAvatar }}
+            </t-avatar>
           </t-button>
         </t-dropdown>
       </div>
     </template>
   </t-head-menu>
-  <person-center-modal v-model:dialog-visible="personCenterDialogVisible"/>
   <change-pwd-modal v-model:dialog-visible="changePwdDialogVisible"
                     :need-old-pwd="true"/>
 </template>
 <script setup lang="tsx">
 import {useAsideCollapsedStore} from '@/stores/asideCollapsedStore.ts'
 import {onMounted, onUnmounted, ref} from "vue";
-import PersonCenterModal from "@/components/PersonCenterModal.vue";
 import {type DropdownProps, MessagePlugin} from "tdesign-vue-next";
-import {KeyIcon, UserIcon, SettingIcon, SunnyIcon, LogoutIcon, MoonIcon} from "tdesign-icons-vue-next";
+import {KeyIcon, UserIcon, SunnyIcon, LogoutIcon, MoonIcon} from "tdesign-icons-vue-next";
 import {useRouter} from "vue-router";
 import ChangePwdModal from "@/components/ChangePwdModal.vue";
 import {getFileNetworkPath} from "@/utils/fileUtils.ts";
 import type {AccountLoginRes} from "@/api/loginApi.ts";
 
 const router = useRouter()
-const userInfo = JSON.parse(localStorage.getItem('loginInfo')!) as AccountLoginRes
-const avatarUrl = getFileNetworkPath(userInfo.sysUser.avatar!)
+
+//当前登录用户信息
+const userInfo = ref<AccountLoginRes>({
+  loginCode: "",
+  sysUser: {
+    name: "",
+    avatar: "",
+  }
+})
+//用户头像网络地址
+const avatarUrl = ref<string>()
+const nameAvatar = ref<string>()
+
+onMounted(() => {
+  const loginInfo = localStorage.getItem('loginInfo');
+  if (loginInfo) {
+    userInfo.value = JSON.parse(loginInfo) as AccountLoginRes
+    avatarUrl.value = getFileNetworkPath(userInfo.value.sysUser.avatar!)
+    nameAvatar.value = userInfo.value.sysUser.name!.substring(0, 1)
+  }
+})
+//是否全屏
 const isFullScreen = ref(false)
-const personCenterDialogVisible = ref(false);
+//修改密码对话框显隐
 const changePwdDialogVisible = ref(false);
+//头像下拉菜单定义
 const avatarDropdownOptions: DropdownProps['options'] = [
   {
     content: '浅色模式',
@@ -71,26 +93,19 @@ const avatarDropdownOptions: DropdownProps['options'] = [
     divider: true,
   },
   {
-    content: '个人中心',
+    content: '编辑个人资料',
     prefixIcon: () => <UserIcon/>,
     onClick: () => {
-      personCenterDialogVisible.value = true
+      router.push('/userProfile')
     }
   },
   {
     content: '修改密码',
     prefixIcon: () => <KeyIcon/>,
+    divider: true,
     onClick: () => {
       changePwdDialogVisible.value = true
     }
-  },
-  {
-    content: '设置',
-    prefixIcon: () => <SettingIcon/>,
-    onClick: () => {
-
-    },
-    divider: true,
   },
   {
     content: '退出登录',

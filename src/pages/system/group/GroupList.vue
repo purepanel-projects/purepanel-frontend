@@ -19,7 +19,8 @@
       </div>
     </t-form>
     <t-enhanced-table table-layout="auto"
-                      bordered stripe
+                      bordered
+                      hover
                       ref="tableRef"
                       size="small"
                       :data="data"

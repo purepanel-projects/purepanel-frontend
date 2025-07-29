@@ -29,6 +29,11 @@ const router = createRouter({
                     component: () => import('@/pages/system/user/UserList.vue')
                 },
                 {
+                    path: '/userProfile',
+                    name: 'userProfile',
+                    component: () => import('@/pages/system/user/UserProfile.vue')
+                },
+                {
                     path: '/permission',
                     name: 'permission',
                     component: () => import('@/pages/system/permission/PermissionList.vue')

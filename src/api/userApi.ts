@@ -1,7 +1,7 @@
 import request from "@/api/request.ts";
 import type Res from "@/types/Res.ts";
 import type {PageReq, PageRes} from "@/types/Page.ts";
-import type {UserPageListRes, UserSaveReq} from "@/types/SysUser.ts";
+import type {SysUser, UserPageListRes, UserSaveReq} from "@/types/SysUser.ts";
 
 //用户列表分页查询
 export interface UserPageListReq extends PageReq {
@@ -16,6 +16,11 @@ export function userPageListApi(req: UserPageListReq): Promise<Res<PageRes<UserP
 //新增或更新用户
 export function saveUserApi(req: UserSaveReq): Promise<Res<any>> {
     return request.post('/sysUser/save', req)
+}
+
+//登录用户自己编辑个人信息
+export function selfEditApi(req: SysUser): Promise<Res<any>> {
+    return request.post('/sysUser/selfEdit', req)
 }
 
 //删除用户

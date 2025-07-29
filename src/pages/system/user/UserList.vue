@@ -23,7 +23,7 @@
     </t-form>
     <t-enhanced-table table-layout="auto"
                       bordered
-                      stripe
+                      hover
                       :pagination="pagination"
                       @page-change="onPageChange"
                       ref="tableRef"
