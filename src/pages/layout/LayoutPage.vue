@@ -1,13 +1,13 @@
 <template>
-  <t-layout>
+  <t-layout class="!bg-transparent">
     <t-aside class="max-w-min h-screen">
       <layout-aside-nav/>
     </t-aside>
-    <t-layout class="h-screen">
-      <t-header class="border-0">
+    <t-layout class="h-screen !bg-transparent overflow-auto">
+      <t-header class="!bg-transparent sticky top-0 z-3">
         <layout-header/>
       </t-header>
-      <t-content class="overflow-auto bg-[var(--td-bg-color-container)]">
+      <t-content class="bg-[var(--td-bg-color-container)]">
         <layout-content/>
       </t-content>
     </t-layout>

@@ -171,7 +171,7 @@ const columns: EnhancedTableProps<UserPageListRes>['columns'] = [
 ]
 //分页对象
 const pagination = ref<TableProps['pagination']>({
-  pageSize: 10,
+  pageSize: 20,
   total: 0,
   current: 1,
   showJumper: true,
