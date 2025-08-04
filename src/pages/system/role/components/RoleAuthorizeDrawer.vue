@@ -8,6 +8,7 @@
         :data="permissionTree"
         :keys="{value:'id',label:'title'}"
         v-model="checkedPermission"
+        check-strictly
         line
         checkable
         hover

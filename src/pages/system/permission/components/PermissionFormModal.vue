@@ -9,11 +9,11 @@
         <t-form-item label="类型" name="type">
           <t-radio-group variant="primary-filled" v-model="formData.type" @change="handleTypeChange">
             <t-radio-button value="0">菜单</t-radio-button>
-            <t-radio-button value="1">按钮</t-radio-button>
+            <t-radio-button value="1">页面元素</t-radio-button>
             <t-radio-button value="2">菜单组</t-radio-button>
           </t-radio-group>
         </t-form-item>
-        <t-form-item v-if="formData.type==='0'||formData.type==='1'" label="父级" name="pid">
+        <t-form-item v-if="formData.type!=='2'" label="父级" name="pid">
           <t-tree-select
               v-model="formData.pid"
               :data="allTreeList"
@@ -25,7 +25,7 @@
         </t-form-item>
         <t-form-item v-if="formData.type==='1'" label="授权编码" name="authCode">
           <t-input v-model="formData.authCode" placeholder="请输入授权编码"/>
-          <t-tooltip content="用于控制按钮和对应接口的权限">
+          <t-tooltip content="开发人员用于控制页面元素的显隐">
             <t-icon class="ml-2" name="help-circle"/>
           </t-tooltip>
         </t-form-item>
@@ -96,6 +96,7 @@ watch(() => props.oldData, () => {
   } else {
     // 新增模式
     formData = reactive<SysPermission>({
+      pid: props.oldData?.pid,
       type: '0',
       orderNo: 0,
       isHidden: false,

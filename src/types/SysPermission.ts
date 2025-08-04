@@ -1,7 +1,7 @@
 export interface GetLoginUserPermissionRes {
     permissionTree: SysPermissionTreeListRes[];
     menuTree: SysPermissionTreeListRes[];
-    btnList: SysPermission[];
+    pageElementList: SysPermission[];
 }
 
 export interface SysPermissionTreeListRes extends SysPermission {

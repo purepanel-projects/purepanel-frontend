@@ -80,7 +80,7 @@ import {useAsideCollapsedStore} from "@/stores/asideCollapsedStore.ts";
 import {computed, onMounted, ref} from "vue";
 import {getLoginUserPermissionApi} from "@/api/permissionApi.ts";
 import type {SysPermissionTreeListRes} from "@/types/SysPermission.ts";
-import {useBtnPermissionStore} from "@/stores/btnPermissionStore.ts";
+import {usePageElementPermissionStore} from "@/stores/pageElementPermissionStore.ts";
 import {useRoute} from "vue-router";
 
 const route = useRoute()
@@ -94,7 +94,7 @@ onMounted(() => {
 function getLoginUserPermission() {
   getLoginUserPermissionApi().then((res) => {
     menuTree.value = res.payload.menuTree;
-    useBtnPermissionStore().update(res.payload.btnList)
+    usePageElementPermissionStore().update(res.payload.pageElementList)
   })
 }
 </script>

@@ -1,14 +1,14 @@
 import type {Directive} from 'vue'
-import {useBtnPermissionStore} from "@/stores/btnPermissionStore.ts";
+import {usePageElementPermissionStore} from "@/stores/pageElementPermissionStore.ts";
 
 const authDirective: Directive = {
     mounted(el, binding) {
-        const btnStore = useBtnPermissionStore()
+        const pageElementPermissionStore = usePageElementPermissionStore()
 
-        if (!btnStore || !binding.value) return
+        if (!pageElementPermissionStore || !binding.value) return
 
         const code = binding.value
-        const hasPermission = btnStore.btnList.some(item => item.authCode === code)
+        const hasPermission = pageElementPermissionStore.pageElementPermissionList.some(item => item.authCode === code)
 
         if (!hasPermission) {
             el.style.display = 'none'

@@ -10,8 +10,9 @@
       <t-form-item label-width="0" name="type">
         <t-select clearable v-model="searchFormData.type" placeholder="按类型查询">
           <t-option label="菜单" value="0"/>
-          <t-option label="按钮" value="1"/>
+          <t-option label="页面元素" value="1"/>
           <t-option label="菜单组" value="2"/>
+          <t-option label="接口" value="3"/>
         </t-select>
       </t-form-item>
       <div class="flex flex-row gap-4">
@@ -91,7 +92,7 @@ const columns: EnhancedTableProps['columns'] = [
     cell: (h, {row}) => (
         <span>
         {
-          row.type === 0 ? '菜单' : row.type === 1 ? '按钮' : '菜单组'
+          row.type === 0 ? '菜单' : row.type === 1 ? '页面元素' : '菜单组'
         }
       </span>
     )
@@ -122,8 +123,6 @@ const columns: EnhancedTableProps['columns'] = [
           onClick: () => {
             oldData.value = {
               pid: row.id,
-              type: '0',
-              orderNo: 0,
             }
             dialogVisible.value = true;
           }
