@@ -2,7 +2,7 @@ import type {Directive} from 'vue'
 import {usePageElementPermissionStore} from "@/stores/pageElementPermissionStore.ts";
 
 const authDirective: Directive = {
-    mounted(el, binding) {
+    updated(el, binding) {
         const pageElementPermissionStore = usePageElementPermissionStore()
 
         if (!pageElementPermissionStore || !binding.value) return
