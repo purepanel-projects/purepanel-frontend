@@ -1,5 +1,5 @@
 <template>
-  <page-box>
+  <page-box title="用户管理">
     <t-form @reset="resetSearchFormData" @submit="getUserPageList" layout="inline">
       <t-form-item label-width="0">
         <t-input clearable v-model="searchFormData.name" placeholder="按名称模糊查询"/>
@@ -31,12 +31,12 @@
                       :data="data"
                       row-key="id"
                       :columns="columns"/>
-    <change-pwd-modal v-model:dialog-visible="childrenComponentVisible.changePwdModal"
-                      :user-id="currentOperateUserInfo.id"/>
-    <user-form-drawer v-model:drawer-visible="childrenComponentVisible.formDrawer"
-                      :old-data="currentOperateUserInfo"
-                      @submit-success="getUserPageList"/>
   </page-box>
+  <change-pwd-modal v-model:dialog-visible="childrenComponentVisible.changePwdModal"
+                    :user-id="currentOperateUserInfo.id"/>
+  <user-form-drawer v-model:drawer-visible="childrenComponentVisible.formDrawer"
+                    :old-data="currentOperateUserInfo"
+                    @submit-success="getUserPageList"/>
 </template>
 <script setup lang="tsx">
 import PageBox from "@/components/PageBox.vue";

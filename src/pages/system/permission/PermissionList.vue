@@ -1,5 +1,6 @@
 <template>
   <div class="h-full flex flex-col gap-4 p-6">
+    <p class="text-3xl font-bold">菜单权限</p>
     <t-form @reset="resetSearchFormData" @submit="getPermissionTreeList" layout="inline">
       <t-form-item label-width="0">
         <t-input clearable v-model="searchFormData.title" placeholder="按标题模糊查询"/>

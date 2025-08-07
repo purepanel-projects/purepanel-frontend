@@ -1,5 +1,5 @@
 <template>
-  <page-box>
+  <page-box title="角色管理">
     <t-form @reset="resetSearchFormData" @submit="getRolePageList" layout="inline">
       <t-form-item label-width="0">
         <t-input clearable v-model="searchFormData.name" placeholder="按名称模糊查询"/>
@@ -28,23 +28,23 @@
                       :data="data"
                       row-key="id"
                       :columns="columns"/>
-    <!--角色表单-->
-    <t-form :rules="formRules" :data="formData" @submit="handleFormSubmit">
-      <t-dialog destroy-on-close :visible="formVisible" :close-btn="true" :on-close="closeFormDialog">
-        <template #header>填写角色信息</template>
-        <template #body>
-          <t-form-item label="名称" name="name">
-            <t-input v-model="formData.name" placeholder="请输入名称"/>
-          </t-form-item>
-        </template>
-        <template #footer>
-          <t-button theme="primary" type="submit">保存</t-button>
-        </template>
-      </t-dialog>
-    </t-form>
-    <!--授权抽屉-->
-    <role-authorize-drawer v-model:drawer-visible="authorizeDrawerVisible" :role-id="currentAuthorizeRoleId"/>
   </page-box>
+  <!--角色表单-->
+  <t-form :rules="formRules" :data="formData" @submit="handleFormSubmit">
+    <t-dialog destroy-on-close :visible="formVisible" :close-btn="true" :on-close="closeFormDialog">
+      <template #header>填写角色信息</template>
+      <template #body>
+        <t-form-item label="名称" name="name">
+          <t-input v-model="formData.name" placeholder="请输入名称"/>
+        </t-form-item>
+      </template>
+      <template #footer>
+        <t-button theme="primary" type="submit">保存</t-button>
+      </template>
+    </t-dialog>
+  </t-form>
+  <!--授权抽屉-->
+  <role-authorize-drawer v-model:drawer-visible="authorizeDrawerVisible" :role-id="currentAuthorizeRoleId"/>
 </template>
 <script setup lang="tsx">
 import PageBox from "@/components/PageBox.vue";
