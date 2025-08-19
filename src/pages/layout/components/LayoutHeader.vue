@@ -12,14 +12,21 @@
     </t-input>
     <template #operations>
       <div class="flex flex-row items-center mr-[var(--td-comp-margin-xxl)] gap-2">
-        <t-button class="!p-2" variant="text" @click="toggleFullScreen">
-          <template #icon>
-            <t-icon :name="isFullScreen?'fullscreen-exit':'fullscreen'"/>
-          </template>
-        </t-button>
+        <t-tooltip content="AI 助手">
+          <t-button class="!p-2" variant="text" @click="aiChatDialogVisible=true">
+            <template #icon>
+              <t-icon name="chat-bubble-smile"/>
+            </template>
+          </t-button>
+        </t-tooltip>
         <t-button class="!p-2" variant="text">
           <template #icon>
             <t-icon name="notification"/>
+          </template>
+        </t-button>
+        <t-button class="!p-2" variant="text" @click="toggleFullScreen">
+          <template #icon>
+            <t-icon :name="isFullScreen?'fullscreen-exit':'fullscreen'"/>
           </template>
         </t-button>
         <t-dropdown :options="avatarDropdownOptions" max-column-width="300px">
@@ -36,6 +43,7 @@
   </t-head-menu>
   <change-pwd-modal v-model:dialog-visible="changePwdDialogVisible"
                     :need-old-pwd="true"/>
+  <ai-chat-dialog v-model:dialog-visible="aiChatDialogVisible"/>
 </template>
 <script setup lang="tsx">
 import {useAsideCollapsedStore} from '@/stores/asideCollapsedStore.ts'
@@ -46,6 +54,7 @@ import {useRouter} from "vue-router";
 import ChangePwdModal from "@/components/ChangePwdModal.vue";
 import {getFileNetworkPath} from "@/utils/fileUtils.ts";
 import type {AccountLoginRes} from "@/api/loginApi.ts";
+import AiChatDialog from "@/components/AiChatDialog.vue";
 
 const router = useRouter()
 
@@ -136,4 +145,6 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('fullscreenchange', handleFullScreenChange)
 })
+
+const aiChatDialogVisible = ref(false)
 </script>
