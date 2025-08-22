@@ -13,7 +13,7 @@
     <template #operations>
       <div class="flex flex-row items-center mr-[var(--td-comp-margin-xxl)] gap-2">
         <t-tooltip content="AI 助手">
-          <t-button class="!p-2" variant="text" @click="aiChatDialogVisible=true">
+          <t-button class="!p-2" variant="text" @click="aiChatDrawerVisible=!aiChatDrawerVisible">
             <template #icon>
               <t-icon name="chat-bubble-smile"/>
             </template>
@@ -43,7 +43,7 @@
   </t-head-menu>
   <change-pwd-modal v-model:dialog-visible="changePwdDialogVisible"
                     :need-old-pwd="true"/>
-  <ai-chat-dialog v-model:dialog-visible="aiChatDialogVisible"/>
+  <ai-chat-d v-model:drawer-visible="aiChatDrawerVisible"/>
 </template>
 <script setup lang="tsx">
 import {useAsideCollapsedStore} from '@/stores/asideCollapsedStore.ts'
@@ -54,7 +54,7 @@ import {useRouter} from "vue-router";
 import ChangePwdModal from "@/components/ChangePwdModal.vue";
 import {getFileNetworkPath} from "@/utils/fileUtils.ts";
 import type {AccountLoginRes} from "@/api/loginApi.ts";
-import AiChatDialog from "@/components/AiChatDialog.vue";
+import AiChatD from "@/components/AiChatDrawer.vue";
 
 const router = useRouter()
 
@@ -146,5 +146,5 @@ onUnmounted(() => {
   document.removeEventListener('fullscreenchange', handleFullScreenChange)
 })
 
-const aiChatDialogVisible = ref(false)
+const aiChatDrawerVisible = ref(false)
 </script>
