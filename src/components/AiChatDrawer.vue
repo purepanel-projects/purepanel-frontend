@@ -14,23 +14,40 @@
             <t-icon name="edit-1"/>
             <span>新聊天</span>
           </div>
-          <p class="text-[var(--td-text-color-secondary)] mt-8 ml-2">历史聊天</p>
-          <div class="flex items-center flex-row py-1 px-2
-          hover:bg-[var(--td-bg-color-container-hover)] cursor-pointer rounded-lg mt-2">
-            <span>新聊天</span>
+          <p v-if="conversationList.length > 0" class="text-[var(--td-text-color-secondary)] mt-8 ml-2">历史聊天</p>
+          <div v-for="conversation in conversationList"
+               :key="conversation.id"
+               @mouseenter="hoverConversationId=conversation.id"
+               class="flex items-center flex-row py-1 px-2 hover:bg-[var(--td-bg-color-container-hover)] cursor-pointer rounded-lg mt-2">
+            <span>{{ conversation.title }}</span>
+            <t-dropdown v-if="hoverConversationId === conversation.id"
+                        trigger="click"
+                        :options="conversationOptions"
+                        :hide-after-item-click="true"
+                        class="ml-auto">
+              <t-icon @click="hoverConversationId=conversation.id" name="more"/>
+            </t-dropdown>
           </div>
         </div>
-        <t-chat
-            animation="moving"
-            :data="chatList">
-        </t-chat>
+        <div>
+          <t-chat
+              animation="moving"
+              :data="chatList">
+            <template #footer>
+              <t-chat-input placeholder="请输入消息..." @send="handelSend"></t-chat-input>
+            </template>
+          </t-chat>
+        </div>
       </div>
     </template>
   </t-drawer>
 </template>
-<script setup lang="ts">
-import {ref} from 'vue';
+<script setup lang="tsx">
+import {onMounted, ref} from 'vue';
 import type {DialogProps} from "tdesign-vue-next";
+import {listChatbotConversationApi} from "@/api/chatbotApi.ts";
+import type {AiChatbotConversation} from "@/types/AiChatbotConversation.ts";
+import {Edit2Icon, DeleteIcon, ShareIcon} from 'tdesign-icons-vue-next';
 
 //定义接收的参数
 const props = defineProps<{
@@ -41,6 +58,33 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'update:drawerVisible', value: Boolean): void;
 }>()
+
+const currentConversationId = ref<string>()
+const hoverConversationId = ref<string>()
+
+onMounted(() => {
+  //获取会话列表
+  listConversation()
+})
+
+const conversationOptions = [
+  {
+    content: '重命名',
+    value: 1,
+    prefixIcon: () => <Edit2Icon/>,
+  },
+  {
+    content: '分享',
+    value: 1,
+    prefixIcon: () => <ShareIcon/>,
+  },
+  {
+    content: '删除',
+    value: 1,
+    prefixIcon: () => <DeleteIcon/>,
+    theme: 'error',
+  },
+]
 
 // 倒序渲染
 const chatList = ref([
@@ -68,4 +112,17 @@ const chatList = ref([
 const closeDrawer: DialogProps['onClose'] = () => {
   emit('update:drawerVisible', false)
 };
+
+const conversationList = ref<AiChatbotConversation[]>([])
+
+//获取会话列表
+function listConversation() {
+  listChatbotConversationApi().then(res => {
+    conversationList.value = res.payload
+  })
+}
+
+function handelSend(value: string) {
+
+}
 </script>
