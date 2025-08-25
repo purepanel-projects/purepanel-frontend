@@ -19,6 +19,11 @@ const router = createRouter({
             redirect: '/home',
             children: [
                 {
+                    path: '/aiChatbot',
+                    name: 'aiChatbot',
+                    component: () => import('@/pages/aiChatbot/AIChatbot.vue')
+                },
+                {
                     path: '/home',
                     name: 'home',
                     component: () => import('@/pages/home/Home.vue')
