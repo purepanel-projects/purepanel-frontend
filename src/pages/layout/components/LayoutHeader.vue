@@ -43,7 +43,7 @@
   </t-head-menu>
   <change-pwd-modal v-model:dialog-visible="changePwdDialogVisible"
                     :need-old-pwd="true"/>
-  <ai-chat-d v-model:drawer-visible="aiChatDrawerVisible"/>
+  <ai-chat-drawer v-model:drawer-visible="aiChatDrawerVisible"/>
 </template>
 <script setup lang="tsx">
 import {useAsideCollapsedStore} from '@/stores/asideCollapsedStore.ts'
@@ -54,7 +54,7 @@ import {useRouter} from "vue-router";
 import ChangePwdModal from "@/components/ChangePwdModal.vue";
 import {getFileNetworkPath} from "@/utils/fileUtils.ts";
 import type {AccountLoginRes} from "@/api/loginApi.ts";
-import AiChatD from "@/components/AiChatDrawer.vue";
+import AiChatDrawer from "@/components/AiChatDrawer.vue";
 
 const router = useRouter()
 
