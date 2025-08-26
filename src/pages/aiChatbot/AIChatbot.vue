@@ -10,6 +10,7 @@
       <div v-for="conversation in conversationList"
            :key="conversation.id"
            @mouseenter="hoverConversationId=conversation.id"
+           @click="()=>handleConversationClick(conversation.id)"
            class="flex items-center flex-row p-2 hover:bg-[var(--td-bg-color-container-hover)] cursor-pointer rounded-lg mt-2">
         <span>{{ conversation.title }}</span>
         <t-dropdown v-if="hoverConversationId === conversation.id"
@@ -17,41 +18,50 @@
                     :options="conversationOptions"
                     :hide-after-item-click="true"
                     class="ml-auto">
-          <t-icon @click="hoverConversationId=conversation.id" name="more"/>
+          <t-icon name="more"/>
         </t-dropdown>
       </div>
     </div>
     <chat
+        style="height: calc(100vh - 60px)"
         :reverse="false"
         class="!p-6"
         animation="moving"
-        :clear-history="chatList.length > 0"
+        :clear-history="false"
         :data="chatList">
-      <div v-if="chatList.length === 0" class="flex flex-col justify-center gap-10 h-full">
+      <div v-if="chatList.length === 0" class="flex flex-col justify-center gap-14 h-full">
         <p class="w-full text-center text-3xl">😊 我们先从哪里开始呢？</p>
         <chat-sender :textarea-props="{placeholder: '询问任何问题'}"
-                     @send="handelSend"/>
+                     @send="handleSend"/>
       </div>
+      <template #content="{ item, index }">
+        <pre>{{item.content}}</pre>
+      </template>
       <template #footer>
         <chat-sender v-if="chatList.length > 0" :textarea-props="{placeholder: '询问任何问题'}"
-                     @send="handelSend"/>
+                     @send="handleSend"/>
       </template>
     </chat>
   </div>
 </template>
 <script setup lang="tsx">
 import {onMounted, ref} from 'vue';
-import {listChatbotConversationApi} from "@/api/chatbotApi.ts";
+import {listChatbotChatRecordApi, listChatbotConversationApi, streamChatApi} from "@/api/chatbotApi.ts";
 import type {AiChatbotConversation} from "@/types/AiChatbotConversation.ts";
 import {Edit2Icon, DeleteIcon, ShareIcon} from 'tdesign-icons-vue-next';
-import {Chat, ChatSender} from '@tdesign-vue-next/chat'
+import {Chat, ChatSender, ChatContent} from '@tdesign-vue-next/chat'
+import {Snowflake} from "@theinternetfolks/snowflake";
 
+//当前会话ID
 const currentConversationId = ref<string>()
+//鼠标悬停的会话ID
 const hoverConversationId = ref<string>()
 
 onMounted(() => {
   //获取会话列表
   listConversation()
+  //获取聊天记录
+  listChatRecord()
 })
 
 //历史聊天菜单项
@@ -93,12 +103,55 @@ function listConversation() {
   })
 }
 
-function handelSend(value: string) {
+//获取聊天记录
+function listChatRecord() {
+  if (!currentConversationId.value) {
+    return
+  }
+  listChatbotChatRecordApi(currentConversationId.value).then(res => {
+    chatList.value = res.payload.map(item => {
+      return {
+        name: item.type === 'USER' ? '自己' : 'AI 助理',
+        content: item.content,
+        role: item.type === 'USER' ? 'user' : 'assistant',
+      }
+    })
+  })
+}
+
+function handleConversationClick(conversationId?: string) {
+  currentConversationId.value = conversationId
+  listChatRecord()
+}
+
+function handleSend(value: string) {
   chatList.value.push({
     name: '自己',
     content: value,
     role: 'user',
   })
-
+  let conversationId
+  if (currentConversationId.value) {
+    conversationId = currentConversationId.value
+  } else {
+    conversationId = Snowflake.generate()
+    currentConversationId.value = conversationId;
+  }
+  let firstFlag = true;
+  streamChatApi({
+    question: value,
+    conversationId: conversationId,
+  }, (message) => {
+    if (firstFlag) {
+      chatList.value.push({
+        name: 'AI 助理',
+        content: message,
+        role: 'assistant',
+      })
+    } else {
+      chatList.value[chatList.value.length - 1].content += message
+    }
+    firstFlag = false;
+  })
 }
 </script>
