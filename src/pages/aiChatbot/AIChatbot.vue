@@ -25,7 +25,7 @@
     <chat
         style="height: calc(100vh - 60px)"
         :reverse="false"
-        class="!p-6"
+        class="!p-6 chat-ui"
         animation="moving"
         :clear-history="false"
         :data="chatList">
@@ -34,9 +34,6 @@
         <chat-sender :textarea-props="{placeholder: '询问任何问题'}"
                      @send="handleSend"/>
       </div>
-      <template #content="{ item, index }">
-        <pre>{{item.content}}</pre>
-      </template>
       <template #footer>
         <chat-sender v-if="chatList.length > 0" :textarea-props="{placeholder: '询问任何问题'}"
                      @send="handleSend"/>
@@ -49,7 +46,7 @@ import {onMounted, ref} from 'vue';
 import {listChatbotChatRecordApi, listChatbotConversationApi, streamChatApi} from "@/api/chatbotApi.ts";
 import type {AiChatbotConversation} from "@/types/AiChatbotConversation.ts";
 import {Edit2Icon, DeleteIcon, ShareIcon} from 'tdesign-icons-vue-next';
-import {Chat, ChatSender, ChatContent} from '@tdesign-vue-next/chat'
+import {Chat, ChatSender} from '@tdesign-vue-next/chat'
 import {Snowflake} from "@theinternetfolks/snowflake";
 
 //当前会话ID
@@ -155,3 +152,12 @@ function handleSend(value: string) {
   })
 }
 </script>
+
+<style scoped>
+.chat-ui ol,
+.chat-ui ul,
+.chat-ui li,
+.chat-ui strong {
+  all: revert;
+}
+</style>
