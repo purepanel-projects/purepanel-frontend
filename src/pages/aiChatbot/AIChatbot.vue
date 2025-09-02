@@ -198,14 +198,18 @@ function handleSend(value: string) {
 }
 
 .markdown-body table {
-  border-collapse: collapse; /* 合并边框 */
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--td-gray-color-4);
   width: 100%;
   margin: 1em 0;
+  border-radius: var(--td-radius-default);
+  overflow: hidden;
 }
 
 .markdown-body th,
 .markdown-body td {
-  border: 1px solid var(--td-gray-color-4); /* 单元格边框 */
+  border: 1px solid var(--td-gray-color-4);
   padding: 0.5em 1em; /* 内边距 */
   text-align: left;
 }
