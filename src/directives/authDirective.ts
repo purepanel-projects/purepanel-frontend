@@ -2,17 +2,24 @@ import type {Directive} from 'vue'
 import {usePageElementPermissionStore} from "@/stores/pageElementPermissionStore.ts";
 
 const authDirective: Directive = {
+    mounted(el, binding) {
+        check(el, binding)
+    },
     updated(el, binding) {
-        const pageElementPermissionStore = usePageElementPermissionStore()
+        check(el, binding)
+    }
+}
 
-        if (!pageElementPermissionStore || !binding.value) return
+function check(el: HTMLElement, binding: any) {
+    const pageElementPermissionStore = usePageElementPermissionStore()
 
-        const code = binding.value
-        const hasPermission = pageElementPermissionStore.pageElementPermissionList.some(item => item.authCode === code)
+    if (!pageElementPermissionStore || !binding.value) return
 
-        if (!hasPermission) {
-            el.style.display = 'none'
-        }
+    const code = binding.value
+    const hasPermission = pageElementPermissionStore.pageElementPermissionList.some(item => item.authCode === code)
+
+    if (!hasPermission) {
+        el.parentNode && el.parentNode.removeChild(el)
     }
 }
 
