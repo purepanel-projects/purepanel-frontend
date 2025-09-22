@@ -1,5 +1,6 @@
 <template>
-  <t-menu class="!bg-[var(--td-bg-color-container-hover)] rounded-xl" :value="activeMenu"
+  <t-menu class="!bg-[var(--td-bg-color-container-hover)] shadow-xl rounded-xl border
+  dark:border-[var(--td-brand-color-light)] border-[var(--td-brand-color-focus)]" :value="activeMenu"
           :collapsed="useAsideCollapsedStore().asideCollapsed"
           :expandMutex="true">
     <div class="w-full flex items-center justify-center mb-4">
