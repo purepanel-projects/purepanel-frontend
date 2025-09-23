@@ -31,9 +31,9 @@
         </t-button>
         <t-dropdown :options="avatarDropdownOptions" max-column-width="300px">
           <t-button class="!p-1" variant="text" shape="round">
-            <t-avatar v-if="avatarUrl" size="small" shape="round"
+            <t-avatar v-if="avatarUrl" size="small" shape="circle"
                       :image="avatarUrl"/>
-            <t-avatar v-else size="small" shape="round">
+            <t-avatar v-else size="small" shape="circle">
               {{ nameAvatar }}
             </t-avatar>
           </t-button>
