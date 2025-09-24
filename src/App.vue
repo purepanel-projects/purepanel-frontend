@@ -11,7 +11,7 @@ if (themeMode === 'dark') {
   document.documentElement.setAttribute("theme-mode", "dark");
 }
 //默认主题
-setThemeColor('purple')
+setThemeColor('blue')
 </script>
 
 <style scoped>
