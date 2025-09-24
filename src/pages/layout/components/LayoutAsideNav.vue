@@ -3,9 +3,9 @@
   dark:border-[var(--td-brand-color-light)] border-[var(--td-brand-color-focus)]" :value="activeMenu"
           :collapsed="useAsideCollapsedStore().asideCollapsed"
           :expandMutex="true">
-    <div class="w-full flex items-center justify-center mb-4">
-      <img v-if="useAsideCollapsedStore().asideCollapsed" class="w-10" src="@/assets/logo-bg.png" alt="logo">
-      <img v-else class="w-56" src="@/assets/logo-h.png" alt="logo">
+    <div class="w-full flex flex-row items-center justify-center mb-4">
+      <p class="text-4xl">💧</p>
+      <p v-if="!useAsideCollapsedStore().asideCollapsed" class="text-2xl font-serif mr-6">PurePanel</p>
     </div>
     <!--遍历菜单树-->
     <template v-for="menu in menuTree" :key="menu.id">
