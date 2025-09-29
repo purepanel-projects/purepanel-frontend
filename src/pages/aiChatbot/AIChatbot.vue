@@ -24,6 +24,7 @@
       </div>
     </div>
     <chat
+        ref="chatRef"
         class="!p-4"
         style="height: calc(100vh - 56px)"
         :reverse="false"
@@ -51,11 +52,11 @@
   </div>
 </template>
 <script setup lang="tsx">
-import {onMounted, ref} from 'vue';
+import {nextTick, onMounted, ref} from 'vue';
 import {listChatbotChatRecordApi, listChatbotConversationApi, streamChatApi} from "@/api/chatbotApi.ts";
 import type {AiChatbotConversation} from "@/types/AiChatbotConversation.ts";
 import {Edit2Icon, DeleteIcon, ShareIcon} from 'tdesign-icons-vue-next';
-import {Chat, ChatSender, ChatContent} from '@tdesign-vue-next/chat'
+import {Chat, ChatSender, ChatContent, type ChatInstanceFunctions} from '@tdesign-vue-next/chat'
 import {Snowflake} from "@theinternetfolks/snowflake";
 
 //当前会话ID
@@ -123,6 +124,7 @@ function listChatRecord() {
         avatar: item.type === 'USER' ? '' : 'https://tdesign.gtimg.com/site/chat-avatar.png',
       }
     })
+    scrollToBottom()
   })
 }
 
@@ -139,6 +141,16 @@ function handleConversationClick(conversationId?: string) {
 const textLoading = ref(false)
 const loading = ref(false)
 const senderValue = ref('')
+const chatRef = ref();
+
+// 滚动到底部
+function scrollToBottom() {
+  nextTick(() => {
+    chatRef.value?.scrollToBottom?.({
+      behavior: 'auto',
+    });
+  })
+}
 
 function handleSend(value: string) {
   textLoading.value = true
@@ -149,10 +161,12 @@ function handleSend(value: string) {
     content: value,
     role: 'user',
   })
+  scrollToBottom()
   chatList.value.push({
     name: 'AI 助理',
     content: '',
     role: 'assistant',
+    avatar: 'https://tdesign.gtimg.com/site/chat-avatar.png',
   })
   let conversationId
   if (currentConversationId.value) {
@@ -168,9 +182,9 @@ function handleSend(value: string) {
   }, (message) => {
     if (firstFlag) {
       textLoading.value = false
-    } else {
-      chatList.value[chatList.value.length - 1].content += message
     }
+    chatList.value[chatList.value.length - 1].content += message
+    scrollToBottom()
     firstFlag = false;
   }, () => {
     listConversation()
