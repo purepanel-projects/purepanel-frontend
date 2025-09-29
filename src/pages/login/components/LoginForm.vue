@@ -1,6 +1,6 @@
 <template>
   <div class="ml-26 gap-6 flex flex-col h-screen justify-center w-[410px]">
-    <div class="p-10 flex flex-col gap-6 rounded-xl backdrop-blur-md">
+    <div class="p-10 flex flex-col gap-6 rounded-xl backdrop-blur-3xl">
       <span class="text-4xl/14 font-bold">登录到<br/>PurePanel</span>
       <t-form :data="formData" :label-width="0" @submit="handleSubmit" :rules="formRules">
         <t-form-item name="account">

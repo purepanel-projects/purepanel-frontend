@@ -1,45 +1,44 @@
 <template>
-  <t-head-menu class="backdrop-blur-md !bg-transparent">
-    <t-button  variant="text" shape="round" @click="useAsideCollapsedStore().reverse()">
+  <t-head-menu class="!bg-transparent">
+    <t-button class="shadow-xl !bg-transparent backdrop-blur-3xl" variant="text" shape="round" @click="useAsideCollapsedStore().reverse()">
       <template #icon>
         <t-icon :name="useAsideCollapsedStore().asideCollapsed?'menu-fold':'menu-unfold'" size="20"/>
       </template>
     </t-button>
-<!--    <t-input class="!w-56 !ml-auto mr-4" readonly default-value="搜索菜单">-->
-<!--      <template #suffixIcon>-->
-<!--        <t-icon name="search"/>-->
-<!--      </template>-->
-<!--    </t-input>-->
-    <template #operations>
-      <div class="flex flex-row items-center mr-[var(--td-comp-margin-xxl)] gap-2">
-        <t-tooltip content="AI 助理">
-          <t-button class="!p-2" variant="text" shape="round" @click="router.push('/aiChatbot')">
-            <template #icon>
-              <t-icon name="chat-bubble-smile"/>
-            </template>
-          </t-button>
-        </t-tooltip>
-        <t-button class="!p-2" variant="text" shape="round">
+    <!--    <t-input class="!w-56 !ml-auto mr-4" readonly default-value="搜索菜单">-->
+    <!--      <template #suffixIcon>-->
+    <!--        <t-icon name="search"/>-->
+    <!--      </template>-->
+    <!--    </t-input>-->
+    <div class="ml-auto flex flex-row items-center justify-center
+    mr-[var(--td-comp-margin-xxl)] gap-2 px-2 py-1 shadow-xl !bg-transparent backdrop-blur-3xl rounded-full">
+      <t-tooltip content="AI 助理">
+        <t-button class="!p-2" variant="text" shape="round" @click="router.push('/aiChatbot')">
           <template #icon>
-            <t-icon name="notification"/>
+            <t-icon name="chat-bubble-smile"/>
           </template>
         </t-button>
-        <t-button class="!p-2" variant="text" shape="round" @click="toggleFullScreen">
-          <template #icon>
-            <t-icon :name="isFullScreen?'fullscreen-exit':'fullscreen'"/>
-          </template>
+      </t-tooltip>
+      <t-button class="!p-2" variant="text" shape="round">
+        <template #icon>
+          <t-icon name="notification"/>
+        </template>
+      </t-button>
+      <t-button class="!p-2" variant="text" shape="round" @click="toggleFullScreen">
+        <template #icon>
+          <t-icon :name="isFullScreen?'fullscreen-exit':'fullscreen'"/>
+        </template>
+      </t-button>
+      <t-dropdown :options="avatarDropdownOptions" max-column-width="300px">
+        <t-button class="!p-1" variant="text" shape="round">
+          <t-avatar v-if="avatarUrl" size="small" shape="circle"
+                    :image="avatarUrl"/>
+          <t-avatar v-else size="small" shape="circle">
+            {{ nameAvatar }}
+          </t-avatar>
         </t-button>
-        <t-dropdown :options="avatarDropdownOptions" max-column-width="300px">
-          <t-button class="!p-1" variant="text" shape="round">
-            <t-avatar v-if="avatarUrl" size="small" shape="circle"
-                      :image="avatarUrl"/>
-            <t-avatar v-else size="small" shape="circle">
-              {{ nameAvatar }}
-            </t-avatar>
-          </t-button>
-        </t-dropdown>
-      </div>
-    </template>
+      </t-dropdown>
+    </div>
   </t-head-menu>
   <change-pwd-modal v-model:dialog-visible="changePwdDialogVisible"
                     :need-old-pwd="true"/>

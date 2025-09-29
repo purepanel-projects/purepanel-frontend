@@ -1,5 +1,5 @@
 <template>
-  <div class="h-14 absolute top-0 w-full backdrop-blur-md
+  <div class="h-14 absolute top-0 w-full backdrop-blur-3xl
     flex flex-row items-center px-6">
     <img class="w-24" src="@/assets/logo-h.png" alt="logo">
     <div class="ml-auto">
