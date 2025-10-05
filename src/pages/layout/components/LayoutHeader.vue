@@ -1,6 +1,7 @@
 <template>
   <t-head-menu class="!bg-transparent">
-    <t-button class="shadow-xl !bg-transparent backdrop-blur-3xl" variant="text" shape="round" @click="useAsideCollapsedStore().reverse()">
+    <t-button class="shadow-xl !bg-transparent backdrop-blur-3xl" variant="text" shape="round"
+              @click="useAsideCollapsedStore().reverse()">
       <template #icon>
         <t-icon :name="useAsideCollapsedStore().asideCollapsed?'menu-fold':'menu-unfold'" size="20"/>
       </template>
@@ -19,16 +20,13 @@
           </template>
         </t-button>
       </t-tooltip>
-      <t-button class="!p-2" variant="text" shape="round">
-        <template #icon>
-          <t-icon name="notification"/>
-        </template>
-      </t-button>
-      <t-button class="!p-2" variant="text" shape="round" @click="toggleFullScreen">
-        <template #icon>
-          <t-icon :name="isFullScreen?'fullscreen-exit':'fullscreen'"/>
-        </template>
-      </t-button>
+      <t-tooltip content="开启/关闭全屏">
+        <t-button class="!p-2" variant="text" shape="round" @click="toggleFullScreen">
+          <template #icon>
+            <t-icon :name="isFullScreen?'fullscreen-exit':'fullscreen'"/>
+          </template>
+        </t-button>
+      </t-tooltip>
       <t-dropdown :options="avatarDropdownOptions" max-column-width="300px">
         <t-button class="!p-1" variant="text" shape="round">
           <t-avatar v-if="avatarUrl" size="small" shape="circle"
